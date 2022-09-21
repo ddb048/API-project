@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+![MeetUp_Schema](./images/MeetUp_Schema.png)
 
 ## API Documentation
 
@@ -621,7 +621,7 @@ Returns all venues for a group specified by its id
       }
     ]
   }
-  
+
   ```
 
 * Error response: Couldn't find a Group with the specified id
