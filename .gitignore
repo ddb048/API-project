@@ -3,3 +3,14 @@ node_modules
 build
 .DS_Store
 *.db
+
+MAIN BRANCH
+//created branches dev
+
+#created migration file correctly
+
+HEAD MDA
+
+#created seeder file and seeded correctly
+
+HEAD MDA#currently working on auth-setup 9/22
