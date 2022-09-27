@@ -11,7 +11,7 @@ module.exports = {
         type: "In person",
         private: true,
         city: "Washington D.C.",
-        State: "D.C Municipality"
+        state: "D.C Municipality"
       },
       {
         organizerId: 2,
@@ -20,7 +20,7 @@ module.exports = {
         type: "In person",
         private: true,
         city: "Norfolk",
-        State: "Virginia"
+        state: "Virginia"
       },
       {
         organizerId: 3,
@@ -29,7 +29,7 @@ module.exports = {
         type: "In person",
         private: false,
         city: "Houston",
-        State: "Texas"
+        state: "Texas"
       },
       {
         organizerId: 4,
@@ -38,7 +38,7 @@ module.exports = {
         type: "Online",
         private: true,
         city: "San Francisco",
-        State: "California"
+        state: "California"
       },
       {
         organizerId: 5,
@@ -47,7 +47,7 @@ module.exports = {
         type: "In person",
         private: false,
         city: "Atlanta",
-        State: "Georgia"
+        state: "Georgia"
       }
     ], {});
   },
