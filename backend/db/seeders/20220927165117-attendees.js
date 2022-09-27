@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('Attendees', [
+    return queryInterface.bulkInsert('Attendances', [
       {
         eventId: 1,
         userId: 1,
@@ -28,7 +28,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('Attendees', {
+    return queryInterface.bulkDelete('Attendances', {
       id: { [Op.between]: [0, 5] }
     }, {});
   }
