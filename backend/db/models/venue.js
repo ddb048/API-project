@@ -10,7 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Venue.hasMany(models.Event, {
+        foreignKey: "venueId",
+        allowNull: true
+      });
+
+      Venue.belongsTo(models.Group, {
+        foreignKey: "groupId"
+      });
     }
   }
   Venue.init({
@@ -41,6 +48,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Venue',
+    scopes: {
+      eventRoutes: {
+        attributes: ['id', 'city', 'state']
+      },
+      eventIdRoutes: {
+        attributes: ['id', 'address', 'city', 'state', 'lat', 'lng']
+      }
+    }
   });
   return Venue;
 };

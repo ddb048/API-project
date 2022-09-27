@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Venues', [
+    return queryInterface.bulkInsert('Venues', [
       {
         groupId: 1,
         address: "1010 W Peachtree St NW",

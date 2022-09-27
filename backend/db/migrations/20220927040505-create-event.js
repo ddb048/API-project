@@ -20,7 +20,8 @@ module.exports = {
         allowNull: false,
         references: {
           model: "Groups", key: "id"
-        }
+        },
+        onDelete: "CASCADE"
       },
       name: {
         type: Sequelize.STRING,
@@ -44,10 +45,12 @@ module.exports = {
         allowNull: false
       },
       startDate: {
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATE,
+        allowNull: false
       },
       endDate: {
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATE,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

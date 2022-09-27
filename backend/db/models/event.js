@@ -10,13 +10,28 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Event.belongsTo(models.Venue, {
+        foreignKey: "venueId",
+        allowNull: true
+      });
+
+      Event.belongsTo(models.Group, {
+        foreignKey: "groupId"
+      });
+
+      Event.hasMany(models.EventImage, {
+        foreignKey: "eventId"
+      });
+
+      Event.belongsToMany(models.User, {
+        through: models.Attendance,
+        foreignKey: "eventId"
+      });
     }
   }
   Event.init({
     venueId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     groupId: {
       type: DataTypes.INTEGER,
@@ -48,15 +63,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     startDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         isDate: true,
-        isAfter: moment().format('L')
+        isAfter: moment()
       }
     },
     endDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         isAfter: this.startDate
@@ -65,6 +80,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Event',
+    defaultScope: {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    }
   });
   return Event;
 };

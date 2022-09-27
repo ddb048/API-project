@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
 
-    await queryInterface.bulkInsert('Groups', [
+    return queryInterface.bulkInsert('Groups', [
       {
         organizerId: 1,
         name: "The Bone Society",
