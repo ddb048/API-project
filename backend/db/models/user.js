@@ -13,7 +13,29 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.belongsToMany(models.Group, {
+        through: models.Membership,
+        foreignKey: "userId"
+      });
+
+      User.belongsToMany(models.Event, {
+        through: models.Attendance,
+        foreignKey: "userId"
+      });
+
+      User.hasMany(models.Group, {
+        foreignKey: "organizerId"
+      });
+
+      User.hasMany(models.Membership, {
+        foreignKey: "userId",
+        as: "Membership"
+      });
+
+      User.hasMany(models.Attendance, {
+        foreignKey: "userId",
+        as: "Attendance"
+      });
     }
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
@@ -100,6 +122,15 @@ module.exports = (sequelize, DataTypes) => {
       currentUser: {
         attributes: { exclude: ["hashedPassword"] }
       },
+      organizer: {
+        attributes: ['id', 'firstName', 'lastName']
+      },
+      userMembership: {
+        attributes: ['id', 'firstName', 'lastName']
+      },
+      userAttendance: {
+        attributes: ['id', 'firstName', 'lastName']
+      }
     }
   });
   return User;

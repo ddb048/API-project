@@ -1,11 +1,14 @@
 const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
-const { restoreUser } = require("../../utils/auth.js");
+const { restoreUser, requireAuth } = require("../../utils/auth.js");
 router.use(restoreUser);
 
 // If current user session is valid, set req.user to the user in the database
 // If current user session is not valid, set req.user to null
+router.get('/test', requireAuth, (req, res) => {
+    res.json({ message: 'success' })
+})
 
 router.use('/session', sessionRouter);
 

@@ -2,51 +2,50 @@
 const bcrypt = require("bcryptjs");
 module.exports = {
   async up(queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
     return queryInterface.bulkInsert('Users', [
       {
-        email: 'demo@user.io',
-        username: 'Demo-lition',
-        firstName: 'demoFirst',
-        lastName: 'demoLast',
-        hashedPassword: bcrypt.hashSync('password')
+        email: 'superfly86@poser.com',
+        username: 'flyboy86',
+        firstName: 'Clark',
+        lastName: 'Kent',
+        hashedPassword: bcrypt.hashSync('louisLang')
 
       },
       {
-        email: 'user1@user.io',
-        username: 'FakeUser1',
-        firstName: 'demoFirst1',
-        lastName: 'demoLast1',
-        hashedPassword: bcrypt.hashSync('password2')
+        email: 'notbatman@wayneenterprises.corp',
+        username: 'BillionaireBoss',
+        firstName: 'Bruce',
+        lastName: 'Wayne',
+        hashedPassword: bcrypt.hashSync('IMissMyParents')
       },
       {
-        email: 'user2@user.io',
-        username: 'FakeUser2',
-        firstName: 'demoFirst2',
-        lastName: 'demoLast2',
-        hashedPassword: bcrypt.hashSync('password3')
+        email: 'mouse@disney.com',
+        username: 'MrMouse',
+        firstName: 'Mickey',
+        lastName: 'Mouse',
+        hashedPassword: bcrypt.hashSync('IHeartMinnie')
+      },
+      {
+        email: 'CindyQueen@apple.com',
+        username: 'number1programmer',
+        firstName: 'Cindy',
+        lastName: 'Guzman',
+        hashedPassword: bcrypt.hashSync('Harper1')
+      },
+      {
+        email: 'Abel@tabelsRUs.com',
+        username: 'stabelish',
+        firstName: 'Abel',
+        lastName: 'Tabel',
+        hashedPassword: bcrypt.hashSync('CryingFace')
       }
     ], {});
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete('Users', {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
+      username: { [Op.in]: ['flyboy86', 'BillionaireBoss', 'MrMouse', 'number1programmer', 'stabelish'] }
     }, {});
   }
 };
