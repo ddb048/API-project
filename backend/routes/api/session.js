@@ -36,11 +36,10 @@ router.post(
             return next(err);
         }
 
-        await setTokenCookie(res, user);
-
-        return res.json({
-            user
-        });
+        const token = await setTokenCookie(res, user);
+        const userResponse = user.toSafeObject();
+        userResponse.token = token;
+        return res.json(userResponse);
     }
 );
 
