@@ -37,7 +37,7 @@ module.exports = {
         }
       },
       lng: {
-        type: Sequelize.DECIMAL(10.7),
+        type: Sequelize.DECIMAL(10, 7),
         allowNull: false,
         validate: {
           min: -180,
