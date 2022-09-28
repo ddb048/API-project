@@ -37,6 +37,33 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         preview: newImage.preview
     })
 })
+
+//DELETE groups by groupId
+router.delete('/:groupId', requireAuth, async (req, res) => {
+    const { groupId } = req.params;
+
+    const group = await Group.findOne({
+        where: {
+            id: groupId
+        }
+    })
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    await group.destroy();
+
+    res.json({
+        "message": "Successfully deleted",
+        "statusCode": res.statusCode
+    });
+});
+
+
 //PUT update groups by groupId
 router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next) => {
     const { name, about, type, private, city, state } = req.body;
