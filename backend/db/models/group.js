@@ -79,6 +79,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       eventIdRoutes: {
         attributes: ['id', 'name', 'private', 'city', 'state']
+      },
+      updateImageRoutes: {
+        attributes: ['name', 'about', 'type', 'private', 'city', 'state']
       }
     }
   });

@@ -31,8 +31,7 @@ router.post(
         if (!user) {
             const err = new Error('Login failed');
             err.status = 401;
-            err.title = 'Login failed';
-            err.errors = ['The provided credentials were invalid.'];
+            err.message = 'Invalid credentials';
             return next(err);
         }
 
@@ -53,7 +52,7 @@ router.get(
             return res.json(
                 user.toSafeObject()
             );
-        } else return res.json({});
+        } else return res.json(null);
     }
 );
 
