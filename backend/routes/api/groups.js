@@ -158,23 +158,23 @@ router.get('/', async (req, res, next) => {
     for (let i = 0; i < allGroups.length; i++) {
         let numMembers = await Membership.count({
             where: {
-                groupId: allGroups[i].dataValues.id
+                groupId: allGroups[i].id
             }
         });
 
         let previewImage = await GroupImage.findOne({
             where: {
-                groupId: allGroups[i].dataValues.id,
+                groupId: allGroups[i].id,
                 preview: true
             }
         });
 
-        allGroups[i].dataValues.numMembers = numMembers;
+        allGroups[i].numMembers = numMembers;
 
         if (previewImage) {
-            allGroups[i].dataValues.previewImage = previewImage.url
+            allGroups[i].previewImage = previewImage.url
         } else {
-            allGroups[i].dataValues.previewImage = null;
+            allGroups[i].previewImage = null;
         }
     }
     res.json({ "Groups": allGroups });
