@@ -155,28 +155,28 @@ router.post('/', requireAuth, validateCreateGroup, async (req, res, next) => {
 router.get('/', async (req, res, next) => {
     let allGroups = await Group.findAll();
 
-    for (let i = 0; i < allGroups.length; i++) {
-        let numMembers = await Membership.count({
-            where: {
-                groupId: allGroups[i].id
-            }
-        });
+    // for (let i = 0; i < allGroups.length; i++) {
+    //     let numMembers = await Membership.count({
+    //         where: {
+    //             groupId: allGroups[i].id
+    //         }
+    //     });
 
-        let previewImage = await GroupImage.findOne({
-            where: {
-                groupId: allGroups[i].id,
-                preview: true
-            }
-        });
+    //     let previewImage = await GroupImage.findOne({
+    //         where: {
+    //             groupId: allGroups[i].id,
+    //             preview: true
+    //         }
+    //     });
 
-        allGroups[i].numMembers = numMembers;
+    //     allGroups[i].numMembers = numMembers;
 
-        if (previewImage) {
-            allGroups[i].previewImage = previewImage.url
-        } else {
-            allGroups[i].previewImage = null;
-        }
-    }
+    //     if (previewImage) {
+    //         allGroups[i].previewImage = previewImage.url
+    //     } else {
+    //         allGroups[i].previewImage = null;
+    //     }
+    // }
     res.json({ "Groups": allGroups });
 })
 module.exports = router;
