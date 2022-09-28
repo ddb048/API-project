@@ -31,16 +31,14 @@ router.post(
         if (!user) {
             const err = new Error('Login failed');
             err.status = 401;
-            err.title = 'Login failed';
-            err.errors = ['The provided credentials were invalid.'];
+            err.message = 'Invalid credentials';
             return next(err);
         }
 
-        await setTokenCookie(res, user);
-
-        return res.json({
-            user
-        });
+        const token = await setTokenCookie(res, user);
+        const userResponse = user.toSafeObject();
+        userResponse.token = token;
+        return res.json(userResponse);
     }
 );
 
@@ -51,10 +49,10 @@ router.get(
     (req, res) => {
         const { user } = req;
         if (user) {
-            return res.json({
-                user: user.toSafeObject()
-            });
-        } else return res.json({});
+            return res.json(
+                user.toSafeObject()
+            );
+        } else return res.json(null);
     }
 );
 

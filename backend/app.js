@@ -74,12 +74,20 @@ app.use((err, _req, _res, next) => {
 app.use((err, _req, res, _next) => {
     res.status(err.status || 500);
     console.error(err);
-    res.json({
-        title: err.title || 'Server Error',
-        message: err.message,
-        errors: err.errors,
-        stack: isProduction ? null : err.stack
-    });
+    let responseError = {};
+    if (err.errors) {
+        responseError.message = err.message;
+        responseError.statusCode = err.status;
+        responseError.errors = err.errors;
+    } else {
+        responseError.message = err.message;
+        responseError.statusCode = err.status;
+    }
+
+
+
+    // stack: isProduction ? null : err.stack
+    res.json(responseError);
 });
 
 module.exports = app;
