@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       userMembership: {
         attributes: ["status"]
       },
-      newMembers: {
+      newMember: {
         attributes: ['groupId', ['userId', 'memberId'], 'status']
       }
     }

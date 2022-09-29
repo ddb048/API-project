@@ -12,7 +12,7 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
     const { eventId } = req.params;
     const { url, preview } = req.body;
 
-    const event = await Event.findAll({
+    const event = await Event.findOne({
         where: {
             id: eventId
         }

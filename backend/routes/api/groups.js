@@ -7,6 +7,62 @@ const { handleValidationErrors, validateCreateGroup, validateCreateVenue, valida
 
 const router = express.Router();
 
+//PUT members by groupId
+
+//POST members by groupId
+router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+
+    const userId = req.user.id;
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const members = await Membership.findOne({
+        where: {
+            userId: req.user.id,
+            groupId: groupId
+        }
+    });
+
+    if (members) {
+        const status = members.dataValues.status;
+
+        if (status === "pending") {
+            const err = new Error("Membership has already been requested");
+            err.status = 400;
+            err.message = "Membership has already been requested";
+            return next(err);
+        } else if (status === "member") {
+            const err = new Error("User is already an accepted member of the group");
+            err.status = 400;
+            err.message = "User is already an accepted member of the group";
+            return next(err);
+        }
+    }
+
+    const member = await Membership.scope("newMember").create({
+        groupId: groupId,
+        userId,
+        status: "pending"
+    });
+
+    const response = {};
+
+    response.groupId = member.dataValues.groupId;
+    response.memberId = member.dataValues.userId;
+    response.status = member.dataValues.status;
+
+    res.json(response);
+})
+
+
 //GET members by members
 router.get('/:groupId/members', requireAuth, async (req, res, next) => {
     const { groupId } = req.params;
@@ -28,7 +84,6 @@ router.get('/:groupId/members', requireAuth, async (req, res, next) => {
                 groupId: groupId
             }
         }],
-        raw: true,
     });
 
     const { organizerId } = group.dataValues;
@@ -274,7 +329,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 })
 
 //DELETE groups by groupId
-router.delete('/:groupId', requireAuth, async (req, res) => {
+router.delete('/:groupId', requireAuth, async (req, res, next) => {
     const { groupId } = req.params;
 
     const group = await Group.findOne({
