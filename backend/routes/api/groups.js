@@ -346,7 +346,7 @@ router.get('/:groupId', async (req, res, next) => {
         include: [
             { model: GroupImage },
             { model: User.scope('organizer'), as: "Organizer" },
-            { model: Venue }
+            { model: Venue.scope('allVenuesRoutes') }
         ]
     })
 
@@ -393,23 +393,23 @@ router.get('/', async (req, res, next) => {
     for (let i = 0; i < allGroups.length; i++) {
         let numMembers = await Membership.count({
             where: {
-                groupId: allGroups[i].id
+                groupId: allGroups[i].dataValues.id
             }
         });
 
         let previewImage = await GroupImage.findOne({
             where: {
-                groupId: allGroups[i].id,
+                groupId: allGroups[i].dataValues.id,
                 preview: true
             }
         });
 
-        allGroups[i].numMembers = numMembers;
+        allGroups[i].dataValues.numMembers = numMembers;
 
         if (previewImage) {
-            allGroups[i].previewImage = previewImage.url
+            allGroups[i].dataValues.previewImage = previewImage.dataValues.url
         } else {
-            allGroups[i].previewImage = null;
+            allGroups[i].dataValues.previewImage = null;
         }
     }
     res.json({ "Groups": allGroups });
