@@ -101,6 +101,53 @@ router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next)
     })
 });
 
+
+//GET groups by current user
+router.get('/current', requireAuth, async (req, res, next) => {
+    const currentGroups = await Group.findAll({
+        where: {
+            organizerId: req.user.id
+        }
+    });
+
+    const currentMembership = await Group.findAll({
+        include: {
+            attributes: [],
+            model: Membership,
+            as: "groupMemberIds",
+            where: {
+                userId: req.user.id
+            }
+        }
+    })
+    const combinedList = [...currentGroups, ...currentMembership];
+
+    for (let i = 0; i < combinedList.length; i++) {
+        let numMembers = await Membership.count({
+            where: {
+                groupId: combinedList[i].dataValues.id
+            }
+        });
+        console.log(numMembers);
+        combinedList[i].dataValues.numMembers = numMembers;
+        console.log(combinedList[i].dataValues.numMembers)
+        let previewImage = await GroupImage.findAll({
+            where: {
+                groupId: combinedList[i].dataValues.id,
+                preview: true
+            }
+        });
+
+        if (previewImage.length) {
+            combinedList[i].dataValues.previewImage = previewImage[0].url;
+        } else {
+            combinedList[i].dataValues.previewImage = null;
+        }
+
+    }
+
+    res.json({ Groups: combinedList })
+})
 //GET groups by groupId
 router.get('/:groupId', async (req, res, next) => {
     const { groupId } = req.params
@@ -115,7 +162,7 @@ router.get('/:groupId', async (req, res, next) => {
         ]
     })
 
-    if (!group) {
+    if (!group.length) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
         err.message = "Group couldn't be found";
@@ -155,28 +202,28 @@ router.post('/', requireAuth, validateCreateGroup, async (req, res, next) => {
 router.get('/', async (req, res, next) => {
     let allGroups = await Group.findAll();
 
-    // for (let i = 0; i < allGroups.length; i++) {
-    //     let numMembers = await Membership.count({
-    //         where: {
-    //             groupId: allGroups[i].id
-    //         }
-    //     });
+    for (let i = 0; i < allGroups.length; i++) {
+        let numMembers = await Membership.count({
+            where: {
+                groupId: allGroups[i].dataValues.id
+            }
+        });
 
-    //     let previewImage = await GroupImage.findOne({
-    //         where: {
-    //             groupId: allGroups[i].id,
-    //             preview: true
-    //         }
-    //     });
+        let previewImage = await GroupImage.findOne({
+            where: {
+                groupId: allGroups[i].dataValues.id,
+                preview: true
+            }
+        });
 
-    //     allGroups[i].numMembers = numMembers;
+        allGroups[i].dataValues.numMembers = numMembers;
 
-    //     if (previewImage) {
-    //         allGroups[i].previewImage = previewImage.url
-    //     } else {
-    //         allGroups[i].previewImage = null;
-    //     }
-    // }
+        if (previewImage) {
+            allGroups[i].dataValues.previewImage = previewImage.url
+        } else {
+            allGroups[i].dataValues.previewImage = null;
+        }
+    }
     res.json({ "Groups": allGroups });
 })
 module.exports = router;

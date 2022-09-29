@@ -73,17 +73,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
-    scopes: {
-      eventRoutes: {
-        attributes: ['id', 'name', 'city', 'state']
-      },
-      eventIdRoutes: {
-        attributes: ['id', 'name', 'private', 'city', 'state']
-      },
-      updateImageRoutes: {
-        attributes: ['name', 'about', 'type', 'private', 'city', 'state']
-      }
-    }
+    // scopes: {
+    //   eventRoutes: {
+    //     attributes: ['id', 'name', 'city', 'state']
+    //   },
+    //   eventIdRoutes: {
+    //     attributes: ['id', 'name', 'private', 'city', 'state']
+    //   },
+    //   updateImageRoutes: {
+    //     attributes: ['name', 'about', 'type', 'private', 'city', 'state']
+    //   }
+    // }
   });
   return Group;
 };

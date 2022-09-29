@@ -31,14 +31,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Membership',
-    scopes: {
-      userMemberships: {
-        attributes: ["status"]
-      },
-      newMembers: {
-        attributes: ['groupId', ['userId', 'memberId'], 'status']
-      }
-    }
+    // scopes: {
+    //   userMemberships: {
+    //     attributes: ["status"]
+    //   },
+    //   newMembers: {
+    //     attributes: ['groupId', ['userId', 'memberId'], 'status']
+    //   }
+    // }
   });
   return Membership;
 };
