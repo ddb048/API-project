@@ -18,7 +18,7 @@ module.exports = {
         allowNull: false
       },
       about: {
-        type: Sequelize.BLOB,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       type: {

@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Membership',
     scopes: {
-      userMemberships: {
+      userMembership: {
         attributes: ["status"]
       },
       newMembers: {

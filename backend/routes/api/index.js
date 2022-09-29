@@ -23,7 +23,7 @@ router.use('/groups', groupsRouter);
 
 router.use('/venues', venuesRouter);
 
-router.use('events', eventsRouter);
+router.use('/events', eventsRouter);
 
 // router.use('')
 
