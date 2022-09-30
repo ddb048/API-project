@@ -52,7 +52,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
 //PUT members by groupId
 router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     const { groupId } = req.params;
-    const { status } = req.body;
+    const { status, memberId } = req.body;
 
     const group = await Group.findByPk(groupId);
 
@@ -63,9 +63,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
         return next(err);
     }
 
-    const currentUser = req.user.id;
-
-    const userId = await User.findByPk(currentUser);
+    const userId = await User.findByPk(memberId);
 
     if (!userId) {
         const err = new Error("User couldn't be found");
@@ -77,7 +75,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     const membership = await Membership.findOne({
         where: {
             groupId,
-            userId: currentUser
+            userId: memberId
         }
     });
 
@@ -90,7 +88,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
 
     const updateMember = await membership.update({
         groupId,
-        userId: currentUser,
+        userId: memberId,
         status
     })
 
