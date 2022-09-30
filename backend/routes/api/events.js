@@ -3,7 +3,7 @@ const express = require('express')
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Group, Venue, Event, Attendance, EventImage, GroupImage } = require('../../db/models');
 const { check } = require('express-validator');
-const { handleValidationErrors, validateCreateEvent } = require('../../utils/validation');
+const { handleValidationErrors, validateCreateEvent, validatePagination } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -36,6 +36,40 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
         url: newImage.dataValues.url,
         preview: newImage.dataValues.preview
     })
+})
+
+//DELETE attendance by eventId
+router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
+    const { eventId } = req.params;
+    const userId = req.body.memberId;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err);
+    }
+
+    const attendance = await Attendance.findOne({
+        where: {
+            eventId,
+            userId
+        },
+        attributes: ['id', 'eventId', 'userId', 'status']
+    });
+
+    if (!attendance) {
+        const err = new Error("Attendance does not exist for this User");
+        err.status = 404;
+        err.message = "Attendance does not exist for this User";
+        return next(err);
+    }
+
+    attendance.destroy();
+
+    res.json({ "message": "Successfully deleted attendance from event" });
 })
 
 //GET attendees by eventId
@@ -273,11 +307,29 @@ router.get('/:eventId', async (req, res, next) => {
 })
 
 //GET all events
-router.get('/', async (req, res, next) => {
+router.get('/', validatePagination, async (req, res, next) => {
+    let { page, size } = req.query;
+
+    if (!page) page = 1;
+    if (!size) size = 20;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if (page < 0) page = 1;
+    if (size < 0) size = 20;
+
+    if (Number.isNaN(page)) page = 1;
+    if (Number.isNaN(size)) size = 20;
+
+    let pagination = {}
+    pagination.limit = size;
+    pagination.offset = size * (page - 1);
 
     const event = await Event.findAll({
         include: [{ model: Group.scope("eventRoutes") },
-        { model: Venue.scope("eventRoutes") }]
+        { model: Venue.scope("eventRoutes") }],
+        ...pagination
     })
 
     for (let i = 0; i < event.length; i++) {

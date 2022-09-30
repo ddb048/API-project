@@ -106,6 +106,29 @@ const validateCreateEvent = [
     handleValidationErrors
 ]
 
+const validatePagination = [
+    check("page")
+        .notEmpty()
+        .isIn({ min: 1, max: Infinity })
+        .withMessage("Page must be greater than or equal to 1"),
+    check("size")
+        .isIn({ min: 1, max: Infinity })
+        .notEmpty()
+        .withMessage("Size must be greater than or equal to 1"),
+    check("name")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Name must be a string"),
+    check("type")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Type must be Online or In person"),
+    check("startDate")
+        .notEmpty()
+        .withMessage("Start date must be in the future"),
+    handleValidationErrors
+]
+
 module.exports = {
-    handleValidationErrors, validateCreateGroup, validateCreateVenue, validateCreateEvent
+    handleValidationErrors, validateCreateGroup, validateCreateVenue, validateCreateEvent, validatePagination
 };
