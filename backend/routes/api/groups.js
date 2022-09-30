@@ -8,6 +8,58 @@ const { handleValidationErrors, validateCreateGroup, validateCreateVenue, valida
 const router = express.Router();
 
 //PUT members by groupId
+router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+    const { status } = req.body;
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const currentUser = req.user.id;
+
+    const userId = await User.findByPk(currentUser);
+
+    if (!userId) {
+        const err = new Error("User couldn't be found");
+        err.status = 404;
+        err.message = "User couldn't be found";
+        return next(err);
+    }
+
+    const membership = await Membership.findOne({
+        where: {
+            groupId,
+            userId: currentUser
+        }
+    });
+
+    if (!membership) {
+        const err = new Error("Membership between the user and the group does not exits");
+        err.status = 404;
+        err.message = "Membership between the user and the group does not exits";
+        return next(err);
+    }
+
+    const updateMember = await membership.update({
+        groupId,
+        userId: currentUser,
+        status
+    })
+
+    const response = {};
+
+    response.groupId = updateMember.dataValues.groupId;
+    response.memberId = updateMember.dataValues.userId;
+    response.status = updateMember.dataValues.status;
+
+    res.json(response);
+})
 
 //POST members by groupId
 router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
@@ -171,7 +223,7 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
 
     const events = await Event.findAll({
         where: {
-            groupId: groupId
+            groupId
         },
         attributes: {
             exclude: ['capacity', 'price']
