@@ -63,7 +63,6 @@ router.get('/:eventId/attendees', async (req, res, next) => {
         attendee.id = attendees[i].id;
         attendee.firstName = attendees[i].firstName;
         attendee.lastName = attendees[i].lastName;
-        console.log(attendees[i].Attendance[0].dataValues.status)
         attendee.Attendance = { "status": attendees[i].Attendance[0].dataValues.status }
 
         response.push(attendee);
@@ -71,6 +70,112 @@ router.get('/:eventId/attendees', async (req, res, next) => {
 
     res.json({ "Attendees": response })
 })
+
+//POST attendance by eventId
+router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
+    const { eventId } = req.params;
+
+    const event = await Event.findOne({
+        where: {
+            id: eventId
+        }
+    });
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err);
+    }
+
+    const attendance = await Attendance.findOne({
+        where: {
+            userId: req.user.id,
+            eventId
+        }
+    });
+
+    if (attendance) {
+        const status = attendance.dataValues.status;
+
+        if (status === "pending") {
+            const err = new Error("Attendance has already been requested");
+            err.status = 404;
+            err.message = "Attendance has already been requested";
+            return next(err);
+        }
+
+        if (status === "member") {
+            const err = new Error("User is already an attendee of the event");
+            err.status = 400;
+            err.message = "User is already an attendee of the event";
+            return next(err);
+        }
+    }
+
+    const invite = await Attendance.create({
+        eventId,
+        userId: req.user.id,
+        status: "pending"
+    });
+
+    res.json({
+        userId: invite.userId,
+        status: invite.status
+    });
+});
+
+//PUT attendance by eventId
+router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
+    const { eventId } = req.params;
+    const { userId, status } = req.body;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err);
+    }
+
+    if (status === "pending") {
+        const err = new Error("Cannot change an attendance status to pending");
+        err.status = 400;
+        err.message = "Cannot change an attendance status to pending";
+    }
+
+    const attendance = await Attendance.findOne({
+        where: {
+            eventId,
+            userId
+        },
+        attributes: ['id', 'eventId', 'userId', 'status']
+    });
+
+    if (!attendance) {
+        const err = new Error("Attendance between the user and the event does not exist");
+        err.status = 404;
+        err.message = "Attendance between the user and the event does not exist";
+        return next(err);
+    }
+
+    const rsvp = await attendance.update({
+        eventId,
+        userId,
+        status
+    });
+
+    const response = {};
+
+    response.id = attendance.dataValues.id;
+    response.eventId = rsvp.dataValues.eventId;
+    response.userId = rsvp.dataValues.userId;
+    response.status = rsvp.dataValues.status;
+
+    res.json(response);
+})
+
 
 //PUT edit event by eventId
 router.put('/:eventId', requireAuth, validateCreateEvent, async (req, res, next) => {
