@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     description: {
-      type: DataTypes.BLOB,
+      type: DataTypes.TEXT,
       allowNull: false
     },
     type: {
