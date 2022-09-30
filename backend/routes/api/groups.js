@@ -6,6 +6,48 @@ const { check } = require('express-validator');
 const { handleValidationErrors, validateCreateGroup, validateCreateVenue, validateCreateEvent } = require('../../utils/validation');
 
 const router = express.Router();
+//DELETE members by groupId
+router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+    const { memberId } = req.body;
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const user = await User.findByPk(memberId);
+
+    if (!user) {
+        const err = new Error("User couldn't be found");
+        err.status = 400;
+        err.message = "User couldn't be found";
+        return next(err);
+    }
+
+    const membership = await Membership.findOne({
+        where: {
+            groupId,
+            userId: memberId
+        }
+    });
+
+    if (!membership) {
+        const err = new Error("Membership does not exist for this User");
+        err.status = 404;
+        err.message = "Membership does not exist for this User";
+        return next(err);
+    }
+
+    membership.destroy();
+
+    res.json({ "message": "Successfully deleted membership from group" })
+})
+
 
 //PUT members by groupId
 router.put('/:groupId/membership', requireAuth, async (req, res, next) => {

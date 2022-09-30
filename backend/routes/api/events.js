@@ -38,6 +38,40 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
     })
 })
 
+//GET attendees by eventId
+router.get('/:eventId/attendees', async (req, res, next) => {
+    const { eventId } = req.params
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err);
+    }
+
+    const attendees = await User.scope("userAttendance").findAll({
+        include: [{ model: Event, where: { id: eventId }, attributes: [] },
+        { model: Attendance.scope("eventAttendees"), as: "Attendance" }]
+    });
+
+    const response = [];
+
+    for (let i = 0; i < attendees.length; i++) {
+        const attendee = {};
+        attendee.id = attendees[i].id;
+        attendee.firstName = attendees[i].firstName;
+        attendee.lastName = attendees[i].lastName;
+        console.log(attendees[i].Attendance[0].dataValues.status)
+        attendee.Attendance = { "status": attendees[i].Attendance[0].dataValues.status }
+
+        response.push(attendee);
+    }
+
+    res.json({ "Attendees": response })
+})
+
 //PUT edit event by eventId
 router.put('/:eventId', requireAuth, validateCreateEvent, async (req, res, next) => {
     const { eventId } = req.params;
