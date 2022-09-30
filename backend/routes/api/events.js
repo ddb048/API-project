@@ -308,28 +308,28 @@ router.get('/:eventId', async (req, res, next) => {
 
 //GET all events
 router.get('/', validatePagination, async (req, res, next) => {
-    let { page, size } = req.query;
+    // let { page, size } = req.query;
 
-    if (!page) page = 1;
-    if (!size) size = 20;
+    // if (!page) page = 1;
+    // if (!size) size = 20;
 
-    page = parseInt(page);
-    size = parseInt(size);
+    // page = parseInt(page);
+    // size = parseInt(size);
 
-    if (page < 0) page = 1;
-    if (size < 0) size = 20;
+    // if (page < 0) page = 1;
+    // if (size < 0) size = 20;
 
-    if (Number.isNaN(page)) page = 1;
-    if (Number.isNaN(size)) size = 20;
+    // if (Number.isNaN(page)) page = 1;
+    // if (Number.isNaN(size)) size = 20;
 
-    let pagination = {}
-    pagination.limit = size;
-    pagination.offset = size * (page - 1);
+    // let pagination = {}
+    // pagination.limit = size;
+    // pagination.offset = size * (page - 1);
 
     const event = await Event.findAll({
         include: [{ model: Group.scope("eventRoutes") },
         { model: Venue.scope("eventRoutes") }],
-        ...pagination
+        // ...pagination
     })
 
     for (let i = 0; i < event.length; i++) {

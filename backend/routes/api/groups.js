@@ -603,11 +603,7 @@ router.get('/', async (req, res, next) => {
         allGroups[i].dataValues.numMembers = numMembers;
 
         if (previewImage) {
-<<<<<<< HEAD
-            allGroups[i].dataValues.previewImage = previewImage.url
-=======
             allGroups[i].dataValues.previewImage = previewImage.dataValues.url
->>>>>>> dev
         } else {
             allGroups[i].dataValues.previewImage = null;
         }
