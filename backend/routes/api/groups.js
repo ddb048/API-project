@@ -234,8 +234,8 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
         address,
         city,
         state,
-        lat,
-        lng
+        lat: parseFloat(lat),
+        lng: parseFloat(lng)
     });
 
     const resVenue = {};
@@ -357,7 +357,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
-        err.message = "Not Found";
+        err.message = "Group couldn't be found";
         return next(err);
     }
 

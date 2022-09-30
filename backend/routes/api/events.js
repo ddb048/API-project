@@ -307,7 +307,7 @@ router.get('/:eventId', async (req, res, next) => {
 })
 
 //GET all events
-router.get('/', validatePagination, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     // let { page, size } = req.query;
 
     // if (!page) page = 1;
