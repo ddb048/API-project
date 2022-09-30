@@ -3,9 +3,345 @@ const express = require('express')
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 const { User, Group, Event, Venue, Membership, Attendance, EventImage, GroupImage } = require('../../db/models');
 const { check } = require('express-validator');
-const { handleValidationErrors, validateCreateGroup } = require('../../utils/validation');
+const { handleValidationErrors, validateCreateGroup, validateCreateVenue, validateCreateEvent } = require('../../utils/validation');
 
 const router = express.Router();
+//DELETE members by groupId
+router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+    const { memberId } = req.body;
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const user = await User.findByPk(memberId);
+
+    if (!user) {
+        const err = new Error("User couldn't be found");
+        err.status = 400;
+        err.message = "User couldn't be found";
+        return next(err);
+    }
+
+    const membership = await Membership.findOne({
+        where: {
+            groupId,
+            userId: memberId
+        }
+    });
+
+    if (!membership) {
+        const err = new Error("Membership does not exist for this User");
+        err.status = 404;
+        err.message = "Membership does not exist for this User";
+        return next(err);
+    }
+
+    membership.destroy();
+
+    res.json({ "message": "Successfully deleted membership from group" })
+})
+
+
+//PUT members by groupId
+router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+    const { status } = req.body;
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const currentUser = req.user.id;
+
+    const userId = await User.findByPk(currentUser);
+
+    if (!userId) {
+        const err = new Error("User couldn't be found");
+        err.status = 404;
+        err.message = "User couldn't be found";
+        return next(err);
+    }
+
+    const membership = await Membership.findOne({
+        where: {
+            groupId,
+            userId: currentUser
+        }
+    });
+
+    if (!membership) {
+        const err = new Error("Membership between the user and the group does not exits");
+        err.status = 404;
+        err.message = "Membership between the user and the group does not exits";
+        return next(err);
+    }
+
+    const updateMember = await membership.update({
+        groupId,
+        userId: currentUser,
+        status
+    })
+
+    const response = {};
+
+    response.groupId = updateMember.dataValues.groupId;
+    response.memberId = updateMember.dataValues.userId;
+    response.status = updateMember.dataValues.status;
+
+    res.json(response);
+})
+
+//POST members by groupId
+router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+
+    const userId = req.user.id;
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const members = await Membership.findOne({
+        where: {
+            userId: req.user.id,
+            groupId: groupId
+        }
+    });
+
+    if (members) {
+        const status = members.dataValues.status;
+
+        if (status === "pending") {
+            const err = new Error("Membership has already been requested");
+            err.status = 400;
+            err.message = "Membership has already been requested";
+            return next(err);
+        } else if (status === "member") {
+            const err = new Error("User is already an accepted member of the group");
+            err.status = 400;
+            err.message = "User is already an accepted member of the group";
+            return next(err);
+        }
+    }
+
+    const member = await Membership.scope("newMember").create({
+        groupId: groupId,
+        userId,
+        status: "pending"
+    });
+
+    const response = {};
+
+    response.groupId = member.dataValues.groupId;
+    response.memberId = member.dataValues.userId;
+    response.status = member.dataValues.status;
+
+    res.json(response);
+})
+
+
+//GET members by members
+router.get('/:groupId/members', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+
+    let group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const groupMembers = await User.scope("userMembership").findAll({
+        include: [{
+            model: Membership.scope("userMembership"),
+            as: "Membership",
+            where: {
+                groupId: groupId
+            }
+        }],
+    });
+
+    const { organizerId } = group.dataValues;
+    const { user } = req;
+
+    if (organizerId !== user.id) {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
+    }
+
+    for (let i = 0; i < groupMembers.length; i++) {
+        groupMembers[i].Membership = { status: groupMembers[i]["Membership.status"] };
+        groupMembers[i]["Membership.status"] = undefined;
+    }
+
+    res.json({ Members: groupMembers })
+})
+
+//GET venues by groupId
+router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+
+    const venues = await Venue.scope("allVenuesRoutes").findAll({
+        where: { groupId: groupId }
+    });
+
+    if (!venues) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    res.json({ Venues: venues })
+})
+//POST venues by groupId
+router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, res, next) => {
+    const { groupId } = req.params
+    const { address, city, state, lat, lng } = req.body
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const venue = await Venue.create({
+        groupId,
+        address,
+        city,
+        state,
+        lat,
+        lng
+    });
+
+    const resVenue = {};
+
+    resVenue.id = venue.dataValues.id;
+    resVenue.groupId = venue.dataValues.groupId;
+    resVenue.address = venue.dataValues.address;
+    resVenue.city = venue.dataValues.city;
+    resVenue.state = venue.dataValues.state;
+    resVenue.lat = venue.dataValues.lat;
+    resVenue.lng = venue.dataValues.lng;
+
+    res.json(resVenue)
+
+})
+//GET events by groupId
+router.get('/:groupId/events', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const events = await Event.findAll({
+        where: {
+            groupId
+        },
+        attributes: {
+            exclude: ['capacity', 'price']
+        },
+        include: [{ model: Group.scope('eventRoutes') }, { model: Venue.scope('eventRoutes') }]
+    });
+
+    for (let i = 0; i < events.length; i++) {
+        const numAttending = await Attendance.count({
+            where: {
+                eventId: events[i].dataValues.id
+            }
+        });
+
+        events[i].dataValues.numAttending = numAttending;
+
+
+        let previewImage = await EventImage.findOne({
+            where: {
+                eventId: events[i].dataValues.id,
+                preview: true
+            }
+        });
+
+        if (previewImage) {
+            events[i].dataValues.previewImage = previewImage.url;
+        } else {
+            events[i].dataValues.previewImage = null;
+        }
+    }
+
+    res.json({ Events: events })
+})
+
+//POST to event by groupId
+router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, res, next) => {
+    const { groupId } = req.params;
+    const { venueId, name, type, capacity,
+        price, description, startDate, endDate } = req.body;
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err)
+    }
+
+    const newEvent = await Event.create({
+        groupId: groupId,
+        venueId,
+        name,
+        type,
+        capacity,
+        price: (parseFloat(price)),
+        description,
+        startDate,
+        endDate
+    });
+
+
+    const response = {};
+    response.id = newEvent.dataValues.id
+    response.groupId = newEvent.dataValues.groupId
+    response.venueId = newEvent.dataValues.venueId
+    response.name = newEvent.dataValues.name
+    response.type = newEvent.dataValues.type
+    response.capacity = newEvent.dataValues.capacity
+    response.price = newEvent.dataValues.price
+    response.description = newEvent.dataValues.description
+    response.startDate = newEvent.dataValues.startDate
+    response.endDate = newEvent.dataValues.endDate;
+
+    res.json(response);
+})
 
 //POST an image to groups by groupId
 router.post('/:groupId/images', requireAuth, async (req, res, next) => {
@@ -38,8 +374,56 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     })
 })
 
+//GET by current
+router.get('/current', requireAuth, async (req, res, next) => {
+    const ownedGroup = await Group.findAll({
+        where: {
+            organizerId: req.user.id
+        }
+    });
+
+    const memberGroup = await Group.findAll({
+        include: {
+            attributes: [],
+            model: Membership,
+            as: "groupMemberIds",
+            where: {
+                userId: req.user.id
+            }
+        }
+    });
+
+    const combinedList = [...ownedGroup, ...memberGroup];
+
+    for (let i = 0; i < combinedList.length; i++) {
+        let numMembers = await Membership.count({
+            where: {
+                groupId: combinedList[i].dataValues.id
+            }
+        });
+
+        combinedList[i].dataValues.numMembers = numMembers
+
+        let previewImage = await GroupImage.findOne({
+            where: {
+                groupId: combinedList[i].dataValues.id,
+                preview: true
+            }
+        });
+
+        if (previewImage) {
+            combinedList[i].dataValues.previewImage = previewImage.url;
+        } else {
+            combinedList[i].dataValues.previewImage = null;
+        }
+    }
+
+    res.json({ Groups: combinedList })
+
+})
+
 //DELETE groups by groupId
-router.delete('/:groupId', requireAuth, async (req, res) => {
+router.delete('/:groupId', requireAuth, async (req, res, next) => {
     const { groupId } = req.params;
 
     const group = await Group.findOne({
@@ -158,7 +542,7 @@ router.get('/:groupId', async (req, res, next) => {
         include: [
             { model: GroupImage },
             { model: User.scope('organizer'), as: "Organizer" },
-            { model: Venue }
+            { model: Venue.scope('allVenuesRoutes') }
         ]
     })
 
@@ -219,7 +603,11 @@ router.get('/', async (req, res, next) => {
         allGroups[i].dataValues.numMembers = numMembers;
 
         if (previewImage) {
+<<<<<<< HEAD
             allGroups[i].dataValues.previewImage = previewImage.url
+=======
+            allGroups[i].dataValues.previewImage = previewImage.dataValues.url
+>>>>>>> dev
         } else {
             allGroups[i].dataValues.previewImage = null;
         }

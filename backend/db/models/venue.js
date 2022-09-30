@@ -54,6 +54,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       eventIdRoutes: {
         attributes: ['id', 'address', 'city', 'state', 'lat', 'lng']
+      },
+      allVenuesRoutes: {
+        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
       }
     }
   });

@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Membership',
+<<<<<<< HEAD
     // scopes: {
     //   userMemberships: {
     //     attributes: ["status"]
@@ -39,6 +40,16 @@ module.exports = (sequelize, DataTypes) => {
     //     attributes: ['groupId', ['userId', 'memberId'], 'status']
     //   }
     // }
+=======
+    scopes: {
+      userMembership: {
+        attributes: ["status"]
+      },
+      newMember: {
+        attributes: ['groupId', ['userId', 'memberId'], 'status']
+      }
+    }
+>>>>>>> dev
   });
   return Membership;
 };

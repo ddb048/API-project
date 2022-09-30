@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'EventImage',
     scopes: {
-      eventRoutes: {
+      eventIdRoutes: {
         attributes: ['id', 'url', 'preview']
       }
     }
