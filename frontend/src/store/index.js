@@ -1,8 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from 'redux-thunk';
-import React from 'react';
 
-import './index.css';
 
 
 const rootReducer = combineReducers({
