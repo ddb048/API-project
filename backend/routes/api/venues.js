@@ -25,8 +25,8 @@ router.put('/:venueId', requireAuth, validateCreateVenue, async (req, res, next)
         address,
         city,
         state,
-        lat,
-        lng
+        lat: parseFloat(lat),
+        lng: parseFloat(lng)
     })
 
     const response = {};
