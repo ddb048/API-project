@@ -11,6 +11,7 @@ function LoginForm() {
     const [passwordErr, setPasswordErr] = useState('');
     const [credentialErr, setCredentialErr] = useState('');
     const [renderErr, setRenderErr] = useState(false)
+    const [placeHolder] = useState('      ');
 
     //Button to demonstrate User functions throughout site for testing
     const demoUserButton = (e) => {
@@ -44,12 +45,12 @@ function LoginForm() {
 
     useEffect(() => {
         if (credential.length < 1) {
-            setCredentialErr('email is required')
+            setCredentialErr('Email is required')
         } else {
             setCredentialErr('');
         }
         if (!password.length) {
-            setPasswordErr('password is required')
+            setPasswordErr('Password is required')
         } else {
             setPasswordErr('');
         }
@@ -62,54 +63,59 @@ function LoginForm() {
         <form onSubmit={handleSubmit}>
             <div className="form-main-div">
 
-                <ul className="login-err-ul">
+                <div className="login-err-ul">
                     {errors.map((error) => (
-                        <li className="invalid-login-err" key={error}>{error}</li>
+                        <div className="invalid-login-err" key={error}>{error}</div>
                     ))}
-                </ul>
+                </div>
 
                 <div className="input-main-div">
+                    <div className="input-inner-div">
+                        <div className="input-header">Email</div>
 
-                    <div className="input-header">Email</div>
+                        <div className="login-input">
+                            <input
+                                className="input-field"
+                                type="text"
+                                value={credential}
+                                onChange={(e) => setCredential(e.target.value)}
 
-                    <div className="login-input">
-                        <input
-                            type="text"
-                            value={credential}
-                            onChange={(e) => setCredential(e.target.value)}
+                            />
 
-                        />
-                    </div>
-                    <div className="input-error">
+                        </div>
+                        <div className="input-error">
 
-                        {renderErr && !credential && credentialErr}
+                            {(renderErr && !credential && credentialErr) || placeHolder}
+                        </div>
                     </div>
                 </div>
 
 
                 <div className="input-main-div">
+                    <div className="input-inner-div">
+                        <div className="input-header">Password</div>
 
-                    <div className="input-header">Password</div>
+                        <div className="login-input">
+                            <input
+                                className="input-field"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
 
-                    <div className="login-input">
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <div className="input-error">
+                            {(!!renderErr && passwordErr.length > 0 && passwordErr) || placeHolder}
 
-                        />
-                    </div>
-                    <div className="input-error">
-                        {!!renderErr && passwordErr.length > 0 && passwordErr}
-
+                        </div>
                     </div>
                 </div>
 
-                <div className="login-button">
-                    <button type="submit">Log In</button>
+                <div className="login-button-div">
+                    <button className='login-button' type="submit">Log In</button>
                 </div>
-                <div className="login-button">
-                    <button type="submit" onClick={demoUserButton}>Demo User Log In</button>
+                <div className="login-button-div">
+                    <button className='login-button' type="submit" onClick={demoUserButton}>Demo User Log In</button>
                 </div>
             </div>
         </form>
