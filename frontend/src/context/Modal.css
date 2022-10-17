@@ -19,6 +19,29 @@
 }
 
 #modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: absolute;
     background-color: white;
+    border-radius: 10px;
+}
+
+.exit {
+    width: 100%;
+    justify-content: flex-end;
+    display: flex;
+
+}
+
+.close-button {
+    padding-right: 2px;
+    padding-top: 10px;
+    color: rgb(165, 165, 165);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: rgb(70, 70, 70);
 }

@@ -1,0 +1,36 @@
+.login-modal-main-div {
+    height: 480px;
+    width: 480px;
+}
+
+.login-lvl2-top-div {
+    display: flex;
+    align-items: center;
+}
+
+.login-modal-logo {
+    display: flexbox;
+    flex-direction: column;
+    height: 60px;
+    width: auto;
+}
+
+
+.login-lvl3-top-logo {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.login-lvl3-middle-LOGIN {
+    font-weight: bold;
+    font-size: 30px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.invalid-login-err {
+    height: 20px;
+    margin-bottom: 15px;
+    color: rgb(246, 64, 96)
+}
