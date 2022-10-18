@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllGroups } from "../../store/groups";
 import './index.css'
+import GroupListing from "../GroupListing";
 
 function Groups() {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ function Groups() {
     return (allGroups &&
         <div className="main">
             {Object.values(allGroups).map(group => (
-                console.log(group)
+                <GroupListing group={group} />
             ))}
         </div>
     )
