@@ -25,12 +25,14 @@ function Navigation({ isLoaded }) {
 
     return (
         <div className='nav-bar'>
-            <div className='home-bttn'>
+            <div className='nav-bar-left'>
                 <NavLink exact to="/">
                     <img className='beatup-small-logo' src={beatupSmall} />
                 </NavLink>
             </div>
-            {isLoaded && sessionLinks}
+            <div className='nav-bar-right'>
+                {isLoaded && sessionLinks}
+            </div>
         </div>
     );
 }

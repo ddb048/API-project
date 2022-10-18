@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 import * as sessionActions from '../../store/session';
+import upload from "../../img/upload.png";
+import downArrow from '../../img/down-arrow.png';
+import profile from '../../img/profile.png';
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
@@ -30,20 +34,22 @@ function ProfileButton({ user }) {
 
     return (
         <>
-            <Link className="nav-logged-in-create-group" to="">Create a Group</Link>
-            <div className="profile-button" onClick={openMenu} id={showMenu ? 'open' : 'closed'}>
 
+            <Link className="create-group" to="">Create a Group</Link>
+            <div className="profile-button" onClick={openMenu}>
+                <div className="profile-menu">
+                    <img className="profile-pic" src={profile} />
+                    <img className="profile-menu-button" src={showMenu ? upload : downArrow} />
+                </div>
 
             </div>
-            {showMenu && (
-                <ul className="profile-dropdown">
-                    <li>{user.username}</li>
-                    <li>{user.email}</li>
-                    <li>
-                        <button onClick={logout}>Log Out</button>
-                    </li>
-                </ul>
-            )}
+
+            <div className="profile-dropdown" id={showMenu ? 'open' : 'closed'}>
+                <div className="user-email">{user.email}</div>
+                <div className='your-events-nav' onClick={''}>Your events</div>
+                <div className="your-groups-nav" onClick={''}>Your groups</div>
+                <div onClick={logout}>Log out</div>
+            </div>
         </>
     );
 }
