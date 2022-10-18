@@ -5,3 +5,5 @@ function GroupListing({ group }) {
         console.log(group)
     )
 }
+
+export default GroupListing
