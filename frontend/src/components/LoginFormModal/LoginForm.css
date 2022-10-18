@@ -78,6 +78,7 @@
 .input-error {
     color: rgb(246, 64, 96);
     flex-direction: row;
+    height: 16px;
 }
 
 .login-button-div {
