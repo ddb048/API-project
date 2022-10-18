@@ -34,10 +34,14 @@ const initialState = {
 export const groupReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_GROUPS:
+            const allGroups = {};
             action.groups.reduce((accum, curr) => {
                 accum[curr.id] = curr;
                 return accum;
             }, allGroups);
             return { ...state, allGroups }
+
+        default:
+            return state
     }
 }
