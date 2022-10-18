@@ -30,9 +30,11 @@ function ProfileButton({ user }) {
 
     return (
         <>
-            <button onClick={openMenu}>
-                <i class="fa-solid fa-user"></i>
-            </button>
+            <Link className="nav-logged-in-create-group" to="">Create a Group</Link>
+            <div className="profile-button" onClick={openMenu} id={showMenu ? 'open' : 'closed'}>
+
+
+            </div>
             {showMenu && (
                 <ul className="profile-dropdown">
                     <li>{user.username}</li>
