@@ -25,6 +25,8 @@
     position: absolute;
     background-color: white;
     border-radius: 10px;
+    height: 600px;
+    width: 480px;
 }
 
 .exit {
@@ -35,7 +37,7 @@
 }
 
 .close-button {
-    padding-right: 2px;
+    padding-right: 10px;
     padding-top: 10px;
     color: rgb(165, 165, 165);
     font-weight: bold;

@@ -1,0 +1,140 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-top {
+    width: 75%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    column-gap: 50px;
+}
+
+
+@media screen and (max-width: 600px) {
+    .main-top {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-header-left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .h1 {
+        text-align: center;
+    }
+
+    .beat-up-introduction {
+        text-align: center;
+    }
+}
+
+
+.main-header-left {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 50%
+}
+
+.h1 {
+    text-align: left;
+    font-size: 40px;
+}
+
+.beat-up-introduction {
+    text-align: left;
+}
+
+.main-header-right {
+    width: 50%
+}
+
+.header-right-img {
+    height: 100%;
+    width: 100%;
+}
+
+.middle-center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0px 30px;
+    width: 50%;
+}
+
+.middle-center-h2 {
+    text-align: center;
+}
+
+.middle-center-p {
+    text-align: center;
+}
+
+.interaction-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: auto;
+    column-gap: 30px;
+}
+
+.link {
+    text-decoration-color: currentColor;
+    text-decoration-line: none;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 280px;
+    border-radius: 10px;
+    height: 300px;
+}
+
+@media screen and (max-width: 600px) {
+    .card {
+        background-color: aliceblue;
+    }
+
+    .interaction-center {
+        flex-direction: column;
+        row-gap: 30px;
+    }
+}
+
+.svg-div {
+    display: flex;
+    justify-content: center;
+}
+
+.title {
+    text-align: center;
+    color: rgb(1, 130, 148);
+}
+
+.title:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 1px;
+}
+
+.p {
+    text-align: center;
+    color: black;
+}
+
+.background-svgs {
+    z-index: -10;
+    position: absolute;
+    display: flex;
+}
