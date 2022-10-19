@@ -6,7 +6,7 @@ import GroupListing from "../GroupListing";
 
 function Groups() {
     const dispatch = useDispatch();
-    const allGroups = useSelector(state => state.groups.allGroups)
+    const groups = useSelector(state => state.groups)
 
     useEffect(() => {
         dispatch(getAllGroups())
@@ -14,7 +14,7 @@ function Groups() {
 
     return (allGroups &&
         <div className="main">
-            {Object.values(allGroups).map(group => (
+            {Object.values(groups).map(group => (
                 <GroupListing group={group} />
             ))}
         </div>
