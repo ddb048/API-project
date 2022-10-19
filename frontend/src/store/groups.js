@@ -1,15 +1,23 @@
 import { csrfFetch } from "./csrf";
 
-//TYPES
+//*******************TYPES*********************
 const LOAD_GROUPS = 'groups/LOAD'
+const ADD_GROUP = 'groups/ADD'
+const REMOVE_GROUP = 'groups/REMOVE'
+const EDIT_GROUP = 'groups/EDIT'
+const LOAD_ONE_GROUP = 'groups/LOAD_ONE'
 
-//ACTION CREATOR
+//****************ACTION CREATOR***************
 const loadGroups = groups => ({
     type: LOAD_GROUPS,
     groups
 })
 
-//THUNKS
+const addGroup = newGroup => {
+    type: ADD_GROUP,
+        newGroup
+}
+/********************THUNKS*********************
 export const getAllGroups = () => async dispatch => {
     const response = await fetch('/api/groups');
 
@@ -17,19 +25,15 @@ export const getAllGroups = () => async dispatch => {
         const groups = await response.json();
         console.log('groups ', groups);
         dispatch(loadGroups(groups));
-        return groups;
     }
+    return groups;
 }
 
-//REDUCER
+//*******************REDUCER********************
 const initialState = {
-    allGroups: {},
-    Group: {
-        groupImages: [],
-        organizer: {},
-        venues: []
-    }
+    groups: {}
 }
+
 
 export const groupReducer = (state = initialState, action) => {
     switch (action.type) {
