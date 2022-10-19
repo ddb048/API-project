@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllGroups } from "../../store/groups";
 import './index.css'
-import GroupListing from "../GroupListing";
+import GroupDetail from "../GroupDetail";
 
 
 function Groups() {
@@ -24,7 +24,7 @@ function Groups() {
     //maps over my array of groups and generates a card for each index
     if (groups.length > 0) {
         groupsList = (
-            groups.map(group => (<GroupListing group={group} />))
+            groups.map(group => (<GroupDetail group={group} />))
         )
 
 
