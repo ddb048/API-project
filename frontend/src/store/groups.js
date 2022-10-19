@@ -21,7 +21,7 @@ export const getAllGroups = () => async dispatch => {
     }
 }
 
-//REDUCER23
+//REDUCER
 const initialState = {
     allGroups: {},
     Group: {
