@@ -31,7 +31,7 @@ function ProfileButton({ user }) {
         e.preventDefault();
         dispatch(sessionActions.logout());
     };
-
+    //removed your groups and events ADD BACK LATER
     return (
         <>
 
@@ -46,8 +46,7 @@ function ProfileButton({ user }) {
 
             <div className="profile-dropdown" id={showMenu ? 'open' : 'closed'}>
                 <div className="user-email">{user.email}</div>
-                <div className='your-events-nav' onClick={''}>Your events</div>
-                <div className="your-groups-nav" onClick={''}>Your groups</div>
+
                 <div onClick={logout}>Log out</div>
             </div>
         </>

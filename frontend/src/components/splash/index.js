@@ -32,7 +32,7 @@ function Splash() {
                 <p>Meet new people who share your interests through online and in-person events.  It's free to create an account and fight bad guys</p>
             </div>
             <div className="interaction-center">
-                <Link className="link" to=''>
+                <Link className="link" to='/groups'>
                     <div className="card">
                         <div className="svg-div">
                             <img className="svg" src="https://secure.meetupstatic.com/next/images/shared/handsUp.svg?w=256" />

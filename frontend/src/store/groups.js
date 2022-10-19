@@ -40,7 +40,7 @@ export const getAllGroups = () => async dispatch => {
 
     if (response.ok) {
         const groups = await response.json();
-        console.log('groups ', groups);
+        console.log('groups from thunk', groups);
         dispatch(loadGroups(groups));
         return groups;
     }
@@ -103,13 +103,13 @@ const initialState = {
 export const groupReducer = (state = initialState, action) => {
 
     let newState;
-
+    let groups;
     switch (action.type) {
 
         case LOAD_GROUPS:
             newState = { ...state };
-            const groups = {};
-            action.groups.forEach(group => groups[group.id] = group);
+            groups = {};
+            action.groups.Groups.forEach(group => groups[group.id] = group);
             newState.groups = groups;
             return newState;
 
