@@ -103,6 +103,7 @@ const initialState = {
 export const groupReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
+
         case LOAD_GROUPS:
             newState = { ...state };
             const groups = {};
@@ -110,6 +111,9 @@ export const groupReducer = (state = initialState, action) => {
             newState.groups = groups;
             return newState;
 
+
+        case ADD_GROUP:
+            newState =
         default:
             return state
     }
