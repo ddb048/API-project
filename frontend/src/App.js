@@ -8,6 +8,7 @@ import Splash from './components/splash';
 import Groups from './components/Groups';
 import { getAllGroups } from "./store/groups";
 import OneGroupDetail from './components/OneGroupDetail'
+import EditGroupForm from "./components/EditGroupForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,10 @@ function App() {
 
           <Route exact path='/'>
             <Splash />
+          </Route>
+
+          <Route path='/groups/:groupId/edit'>
+            <EditGroupForm groups={groups} />
           </Route>
 
           <Route path='/groups/:groupId'>
