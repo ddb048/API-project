@@ -12,11 +12,19 @@ function OneGroupDetail() {
     let dispatch = useDispatch();
     let history = useHistory();
     const [pageNotFound, setPageNotFound] = useState('')
-    const [join, setJoin] = useState('')
 
-    //STATES NEEDED FOR PAGE
+    /*********************State************************/
+
+
     const group = useSelector(state => state.groups.groups[groupId])
+
+    const organizer = useSelector(state => state.groups.oneGroup.Organizer.firstName + " " + state.groups.oneGroup.Organizer.lastName)
+
     const sessionUser = useSelector(state => state.session.user);
+
+
+
+    /*********************Use Effect************************/
 
 
     useEffect(() => {
@@ -31,36 +39,45 @@ function OneGroupDetail() {
     }, [dispatch, groupId]);
 
 
-    //onClick handlers
+    /*********************onClick handlers************************/
     const handleEdit = async (e) => {
         e.preventDefault();
+
         history.pushState(`/groups/${groupId}/edit`);
     }
 
     const handleDelete = async (e) => {
         e.preventDefault();
 
-        if (window.confirm(`Are you sure you'd like to delete ${group.name}?  This action cannot be undone.`)) {
+        if (window.confirm(`Are you sure you'd like to delete ${group.name}?
+          This action cannot be undone.`)) {
+
             dispatch(deleteGroup(groupId));
             history.pushState('/groups');
+
         } else {
             history.pushState(`/groups/${groupId}`);
         }
     };
 
-    const handleJoin = async (e) => {
-        e.preventDefault();
+    /**************************Early Return*************************/
 
-        if (join === 'Join') {
-            setJoin('Joined')
-        } else {
-            setJoin('Join')
-        }
+    if (!group) {
+        return (
+            <>
+                <div className='error-img-div'>
+                    <img className='error-img' src='https://secure.meetupstatic.com/next/images/home/EmptyGroup.svg?w=384' />
+                </div>
+                <div className='error-div'>{pageNotFound}</div>
+            </>
+        );
     }
+    /**************************Normal Functioning*************************/
+
 
     let buttons;
     //IF user is owner of the group, they can edit/delete
-    if (sessionUser && sessionUser.id === group?.organizerId) {
+    if (sessionUser && sessionUser.id === group.organizerId) {
         buttons = (
             <div className='group-buttons'>
                 <div className='edit-button' onClick={handleEdit}>Edit</div>
@@ -68,25 +85,28 @@ function OneGroupDetail() {
             </div>
         )
     } else {
-        buttons = (
-            <div className='group-buttons'>
-                <div className='join-button' onClick={ }
-            </div>
-        )
+        //ADD MEMBERSHIP JOIN BUTTON HERE
+        buttons = (null)
     }
 
     return (
-        <div>
-            {!group && (
-                <>
-                    <div className='error-img-div'>
-                        <img className='error-img' src='https://secure.meetupstatic.com/next/images/home/EmptyGroup.svg?w=384' />
+        <div className='main'>
+            <div className='left-div'>
+                <div className='group-section'>
+                    <div className='group-image'>
+                        <img className='img' src={group.previewImage}></img>
                     </div>
-                    <div className='error-div'>{pageNotFound}</div>
-                </>
-            )}
-            <div>{group?.name}</div>
-
+                    <div className='group-info'>
+                        <h3 className='h3'>About</h3>
+                        <p className='about'>{group.about}</p>
+                    </div>
+                </div>
+            </div>
+            <div className='right-div'>
+                <h1 className='title'>{group.name}</h1>
+                <h3 className='organizer'>Organized by: {organizer}</h3>
+            </div>
+            {buttons}
         </div>
 
     )
