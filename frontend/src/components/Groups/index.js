@@ -15,7 +15,6 @@ function Groups() {
     let groups = [];
     if (groupsObj) {
         groups = Object.values(groupsObj);
-        console.log("groups from Groups component", groups)
     }
     //on each render, triggers the dispatch to backend to fetch all groups
     useEffect(() => {
@@ -44,7 +43,7 @@ function Groups() {
 
 
 
-    //removed link to groups and events ADD BACK LATER
+
     return (groups &&
         <div className="main">
             <div className="groups-inner-container">

@@ -40,7 +40,6 @@ export const getAllGroups = () => async dispatch => {
 
     if (response.ok) {
         const groups = await response.json();
-        console.log('groups from thunk', groups);
         dispatch(loadGroups(groups));
         return groups;
     }
@@ -87,16 +86,17 @@ export const updateGroup = group => async dispatch => {
 //GET /api/groups/:groupId (READ1)
 export const getGroupDetails = groupId => async dispatch => {
     const response = await csrfFetch(`/api/groups/${groupId}`);
-
     if (response.ok) {
         const group = await response.json();
         dispatch(loadOneGroup(group));
+        console.log('group from thunk', group)
         return group;
     }
 }
 /*******************REDUCER********************/
 const initialState = {
-    groups: {}
+    groups: {},
+    oneGroup: {}
 }
 
 
@@ -124,7 +124,11 @@ export const groupReducer = (state = initialState, action) => {
             return newState;
 
         case LOAD_ONE_GROUP:
-            newState = { ...state, [action.group.id]: { ...state[action.group.id], ...action.group } }
+            let oneGroup = {};
+            newState = { ...state };
+            oneGroup = { ...action.group };
+            newState.oneGroup = oneGroup;
+
             return newState;
 
         default:

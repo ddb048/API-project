@@ -7,6 +7,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import Splash from './components/splash';
 import Groups from './components/Groups';
 import { getAllGroups } from "./store/groups";
+import OneGroupDetail from './components/OneGroupDetail'
 
 function App() {
   const dispatch = useDispatch();
@@ -35,9 +36,14 @@ function App() {
             <Splash />
           </Route>
 
+          <Route path='/groups/:groupId'>
+            <OneGroupDetail />
+          </Route>
+
           <Route path='/groups'>
             <Groups />
           </Route>
+
 
 
         </Switch>
