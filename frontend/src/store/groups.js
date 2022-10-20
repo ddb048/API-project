@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 //*******************TYPES*********************/
 const LOAD_GROUPS = 'groups/LOAD'
 const ADD_GROUP = 'groups/ADD'
+const ADD_IMAGE = 'groups/ADD_IMAGE'
 const REMOVE_GROUP = 'groups/REMOVE'
 const EDIT_GROUP = 'groups/EDIT'
 const LOAD_ONE_GROUP = 'groups/LOAD_ONE'
@@ -16,6 +17,11 @@ const loadGroups = groups => ({
 const addGroup = newGroup => ({
     type: ADD_GROUP,
     newGroup
+})
+
+const addImage = image => ({
+    type: ADD_IMAGE,
+    image
 })
 
 const removeGroup = groupId => ({
@@ -56,6 +62,19 @@ export const createGroup = (newGroup) => async dispatch => {
         const newGroup = await response.json();
         dispatch(addGroup(newGroup));
         return newGroup;
+    }
+}
+//POST /api/groups (GREATE)
+export const addGroupImage = (groupId, image) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+        method: 'POST',
+        body: JSON.stringify(image)
+    });
+
+    if (response.ok) {
+        const newImage = await response.json();
+        dispatch(addImage(newImage));
+        return newImage;
     }
 }
 //DELETE /api/groups/:groupId (DELETE)
@@ -117,6 +136,13 @@ export const groupReducer = (state = initialState, action) => {
         case ADD_GROUP:
             newState = { ...state };
             delete newState[action.groupId];
+            return newState;
+
+        case ADD_IMAGE:
+            newState = { ...state, oneGroup: { ...state.oneGroup } }
+            let groupImages = [];
+            groupImages.push(action.image);
+            newState.oneGroup.groupImages = groupImages;
             return newState;
 
         case EDIT_GROUP:

@@ -8,6 +8,7 @@ import Splash from './components/splash';
 import Groups from './components/Groups';
 import { getAllGroups } from "./store/groups";
 import OneGroupDetail from './components/OneGroupDetail'
+import CreateGroupForm from "./components/CreateGroupForm";
 import EditGroupForm from "./components/EditGroupForm";
 
 function App() {
@@ -39,6 +40,10 @@ function App() {
 
           <Route path='/groups/:groupId/edit'>
             <EditGroupForm groups={groups} />
+          </Route>
+
+          <Route path='/groups/new'>
+            <CreateGroupForm />
           </Route>
 
           <Route path='/groups/:groupId'>
