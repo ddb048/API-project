@@ -17,7 +17,7 @@ function OneGroupDetail() {
 
 
     const group = useSelector(state => state.groups.oneGroup)
-    console.log("GROUP", group)
+    // console.log("GROUP from oneGroupDetail", group)
     const organizer = useSelector(state => state.groups.oneGroup.Organizer)
 
     const sessionUser = useSelector(state => state.session.user);

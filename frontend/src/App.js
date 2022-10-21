@@ -10,6 +10,8 @@ import { getAllGroups } from "./store/groups";
 import OneGroupDetail from './components/OneGroupDetail'
 import CreateGroupForm from "./components/CreateGroupForm";
 import EditGroupForm from "./components/EditGroupForm";
+import Events from './components/Events';
+import OneEventDetail from './components/OneEventDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -51,12 +53,17 @@ function App() {
             <OneGroupDetail />
           </Route>
 
+          <Route path='/events/:eventId'>
+            <OneEventDetail />
+          </Route>
 
           <Route path='/groups'>
             <Groups />
           </Route>
 
-
+          <Route path='/events'>
+            <Events />
+          </Route>
 
         </Switch>
       )}

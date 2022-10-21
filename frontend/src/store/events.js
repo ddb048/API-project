@@ -16,8 +16,8 @@ const loadEvents = events => ({
 })
 
 const addEvent = newEvent => ({
-    type: ADD_event,
-    newevent
+    type: ADD_EVENT,
+    newEvent
 })
 
 const addImage = image => ({
@@ -47,6 +47,7 @@ export const getAllEvents = () => async dispatch => {
 
     if (response.ok) {
         const events = await response.json();
+        // console.log('events from thunk', events.Events)
         dispatch(loadEvents(events.Events));
         return events.Events;
     }
@@ -104,7 +105,7 @@ export const updateEvent = event => async dispatch => {
     }
 }
 //GET /api/events/:eventId (READ1)
-export const geteventDetails = eventId => async dispatch => {
+export const getEventDetails = eventId => async dispatch => {
     const response = await csrfFetch(`/api/events/${eventId}`);
     if (response.ok) {
         const event = await response.json();
@@ -126,7 +127,7 @@ export const getEventsByGroup = groupId => async dispatch => {
 /*******************REDUCER********************/
 const initialState = {
     events: {},
-    oneevent: {
+    oneEvent: {
         Group: {}
     }
 }
@@ -140,10 +141,12 @@ export const eventReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case LOAD_EVENTS:
+            newState = { ...state };
             events = {};
-            console.log('action.events from thunk', action.events)
-            action.events.events.forEach(event => events[event.id] = event);
+            // console.log('action.events from reducer', action.events)
+            action.events.forEach(event => events[event.id] = event);
             newState.events = events;
+            // console.log("newState.events from reducer", newState.events)
             return newState;
 
 
@@ -172,7 +175,7 @@ export const eventReducer = (state = initialState, action) => {
         case LOAD_ONE_EVENT:
             oneEvent = {};
             newState.events = { ...state.events, [action.event.id]: action.event };
-            newState.oneevent = { ...action.event };
+            newState.oneEvent = { ...action.event };
 
             return newState;
 
