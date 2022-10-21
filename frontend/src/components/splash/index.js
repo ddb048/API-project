@@ -9,9 +9,9 @@ function Splash() {
     return (
         <div className="main">
             <div className="background-svgs">
-                <img className="green-blob" viewbox="0 20 10 10" src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" />
+                <img className="green-blob" viewBox="0 20 10 10" src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" />
 
-                <img className="yellow-blob" viewbox='10 10 4 10' src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
+                <img className="yellow-blob" viewBox='10 10 4 10' src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
 
                 <img className="red-blob" src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
             </div>
