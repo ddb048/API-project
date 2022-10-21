@@ -66,12 +66,7 @@ function OneGroupDetail() {
 
     if (!Object.values(group).length) {
         return (
-            <>
-                <div className='error-img-div'>
-                    <img className='error-img' src='https://secure.meetupstatic.com/next/images/home/EmptyGroup.svg?w=384' />
-                </div>
-                <div className='error-div'>{pageNotFound}</div>
-            </>
+            null
         );
     }
     /**************************Normal Functioning*************************/
