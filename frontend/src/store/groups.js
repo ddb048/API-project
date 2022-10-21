@@ -7,6 +7,7 @@ const LOAD_GROUPS = 'groups/LOAD'
 const REMOVE_GROUP = 'groups/REMOVE'
 const EDIT_GROUP = 'groups/EDIT'
 const LOAD_ONE_GROUP = 'groups/LOAD_ONE'
+const CLEAR_ONE_GROUP = 'groups/CLEAR'
 
 //****************ACTION CREATOR***************/
 const loadGroups = groups => ({
@@ -37,6 +38,11 @@ const editGroup = group => ({
 const loadOneGroup = group => ({
     type: LOAD_ONE_GROUP,
     group
+})
+
+export const clearGroup = () => ({
+    type: CLEAR_ONE_GROUP
+
 })
 
 /********************THUNKS*********************/
@@ -161,6 +167,11 @@ export const groupReducer = (state = initialState, action) => {
             newState.groups = { ...state.groups, [action.group.id]: action.group };
             newState.oneGroup = { ...action.group };
 
+            return newState;
+
+        case CLEAR_ONE_GROUP:
+            newState = { ...state }
+            newState.oneGroup = {}
             return newState;
 
         default:
