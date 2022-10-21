@@ -2,6 +2,9 @@ import { csrfFetch } from "./csrf";
 
 //*******************TYPES*********************/
 const LOAD_EVENTS = 'events/LOAD'
+const LOAD_EVENTS_GROUP = 'events/LOAD_GROUPS_EVENTS'
+const ADD_EVENT = 'events/ADD'
+const ADD_IMAGE = 'events/ADD_IMAGE'
 const REMOVE_EVENT = 'events/REMOVE'
 const EDIT_EVENT = 'events/EDIT'
 const LOAD_ONE_EVENT = 'events/LOAD_ONE'
@@ -12,15 +15,15 @@ const loadEvents = events => ({
     events
 })
 
-// const addevent = newevent => ({
-//     type: ADD_event,
-//     newevent
-// })
+const addEvent = newEvent => ({
+    type: ADD_event,
+    newevent
+})
 
-// const addImage = image => ({
-//     type: ADD_IMAGE,
-//     image
-// })
+const addImage = image => ({
+    type: ADD_IMAGE,
+    image
+})
 
 const removeEvent = eventId => ({
     type: REMOVE_EVENT,
@@ -44,25 +47,25 @@ export const getAllEvents = () => async dispatch => {
 
     if (response.ok) {
         const events = await response.json();
-        dispatch(loadEvents(events));
-        return events;
+        dispatch(loadEvents(events.Events));
+        return events.Events;
     }
 
 }
-//POST /api/events (CREATE)
-export const createEvent = (newEvent) => async dispatch => {
-    const response = await csrfFetch('/api/events', {
+//POST /api/groups/${groupId}/events (CREATE)
+export const createEvent = (groupId, newEvent) => async dispatch => {
+    const response = await csrfFetch('/api/groups/${groupId}/events', {
         method: 'POST',
         body: JSON.stringify(newEvent)
     });
 
     if (response.ok) {
         const newEvent = await response.json();
-        dispatch(geteventDetails(newEvent));
+        dispatch(addEvent(newEvent));
         return newEvent;
     }
 }
-//POST /api/events (CREATE)
+//POST /api/events/${eventId}/images (CREATE)
 export const addEventImage = (eventId, image) => async dispatch => {
     const response = await csrfFetch(`/api/events/${eventId}/images`, {
         method: 'POST',
@@ -71,7 +74,7 @@ export const addEventImage = (eventId, image) => async dispatch => {
 
     if (response.ok) {
         const newImage = await response.json();
-        dispatch(getEventDetails(eventId));
+        dispatch(addEventImage(newImage));
         return newImage;
     }
 }
@@ -110,10 +113,22 @@ export const geteventDetails = eventId => async dispatch => {
         return event;
     }
 }
+//GET /api/groups/:groupId/events (LOAD)
+export const getEventsByGroup = groupId => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/events/`);
+
+    if (response.ok) {
+        const events = await response.json();
+        dispatch(loadEvents(events.Events));
+        return events;
+    }
+}
 /*******************REDUCER********************/
 const initialState = {
     events: {},
-    oneevent: {}
+    oneevent: {
+        Group: {}
+    }
 }
 
 
@@ -125,8 +140,8 @@ export const eventReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case LOAD_EVENTS:
-            newState = { ...state };
             events = {};
+            console.log('action.events from thunk', action.events)
             action.events.events.forEach(event => events[event.id] = event);
             newState.events = events;
             return newState;
