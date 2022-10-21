@@ -50,51 +50,60 @@ function CreateGroupForm() {
         //name error handling
         if (!name.length) {
             setNameErr('Name is required');
-            setRenderErr(true)
+
         } else if (name.length > 60) {
             setNameErr('Name must be 60 characters or less')
-            setRenderErr(true)
+
+        } else {
+            setNameErr('')
         }
 
         //about error handling
         if (!about.length || about.length && about.length < 50) {
             setAboutErr('About must be 50 characters or more')
-            setRenderErr(true)
+        } else {
+            setAboutErr('')
         }
 
         //city error handling
         if (!city.length) {
             setCityErr('City is required')
-            setRenderErr(true)
+        } else {
+            setCityErr('')
         }
 
         //state error handling
         if (!state.length) {
             setStateErr('State is required')
-            setRenderErr(true)
+        } else {
+            setStateErr('')
         }
 
         //type error handling
-        if (type !== 'In person' || type !== 'Online') {
+        if (!type.length) {
             setTypeErr('Type must be "Online" or "In person"')
-            setRenderErr(true)
+        } else {
+            setTypeErr('')
         }
 
         //private error handling
-        if (groupPrivate !== 'true' || groupPrivate !== 'false') {
+        if (!groupPrivate.length) {
             setPrivateErr('Access must be Public or Private')
-            setRenderErr(true)
+        } else {
+            setPrivateErr('')
         }
 
         //imgUrl error handling
         if (!prevImg.length) {
             setUrlErr('image URL is required')
-            setRenderErr(true)
+
         } else if (prevImg.length && !urlValidation(prevImg)) {
             setUrlErr('invalid image URL')
-            setRenderErr(true)
+        } else {
+            setUrlErr('')
         }
 
+        setBackEndErrors('')
 
     }, [name, about, city, state, prevImg, groupPrivate, type])
 
@@ -102,8 +111,17 @@ function CreateGroupForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setRenderErr(true)
 
-        if (!renderErr) {
+        if (
+            !nameErr &&
+            !aboutErr &&
+            !cityErr &&
+            !stateErr &&
+            !urlErr &&
+            !typeErr &&
+            !privateErr
+        ) {
 
             const payload = {
                 name,
@@ -115,34 +133,29 @@ function CreateGroupForm() {
             }
 
 
-            const newGroup = await dispatch(createGroup(payload)).then(() => {
-                const newImg = {
-                    id: newGroup.id,
-                    url: prevImg,
-                    preview: true
-                }
+            const newGroup = await dispatch(createGroup(payload))
 
-                if (prevImg.length > 0) {
-                    const response = dispatch(addGroupImage(newGroup.id, newImg))
-                }
 
-                history.push(`/groups/${newGroup.id}`)
+            const newImg = {
+                id: newGroup.id,
+                url: prevImg,
+                preview: true
+            }
 
-            }).catch(async (response) => {
-                const data = await response.json();
-
-                if (data && data.message) setBackEndErrors([data.message]);
-            });
+            if (prevImg.length > 0) {
+                const response = dispatch(addGroupImage(newGroup.id, newImg))
+            }
+            history.push(`/groups/${newGroup.id}`)
         }
+
     }
 
 
     return (
         <div className='main'>
             <div className='title'>Create A Group</div>
-            <div className='backend-err-div'>
-                {backEndErrors}
-            </div>
+
+            <div className='backend-errors'>{backEndErrors}</div>
 
             <form onSubmit={handleSubmit}>
                 <div className='form-main'>
@@ -155,7 +168,7 @@ function CreateGroupForm() {
                             />
                         </div>
                         <div className='field-error'>
-                            {renderErr && nameErr.length > 0 && nameErr}
+                            {!!renderErr && nameErr.length > 0 && nameErr}
                         </div>
                     </div>
                     <div className='input-main'>
@@ -168,7 +181,7 @@ function CreateGroupForm() {
                             />
                         </div>
                         <div className='field-error'>
-                            {renderErr && aboutErr.length > 0 && aboutErr}
+                            {!!renderErr && aboutErr.length > 0 && aboutErr}
                         </div>
                     </div>
                     <div className='input-main'>
@@ -180,7 +193,7 @@ function CreateGroupForm() {
                             />
                         </div>
                         <div className='field-error'>
-                            {renderErr && cityErr.length > 0 && cityErr}
+                            {!!renderErr && cityErr.length > 0 && cityErr}
                         </div>
                     </div>
                     <div className='input-main'>
@@ -192,7 +205,7 @@ function CreateGroupForm() {
                             />
                         </div>
                         <div className='field-error'>
-                            {renderErr && stateErr.length > 0 && stateErr}
+                            {!!renderErr && stateErr.length > 0 && stateErr}
                         </div>
                     </div>
                     <div className='input-main'>
@@ -204,7 +217,7 @@ function CreateGroupForm() {
                             />
                         </div>
                         <div className='field-error'>
-                            {renderErr && urlErr.length > 0 && urlErr}
+                            {!!renderErr && urlErr.length > 0 && urlErr}
                         </div>
                     </div>
                     <div className='input-main'>
@@ -220,7 +233,7 @@ function CreateGroupForm() {
                             </select>
                         </div>
                         <div className='field-error'>
-                            {renderErr && typeErr.length > 0 && typeErr}
+                            {!!renderErr && typeErr.length > 0 && typeErr}
                         </div>
                     </div>
                     <div className='input-main'>
@@ -236,7 +249,7 @@ function CreateGroupForm() {
                             </select>
                         </div>
                         <div className='field-error'>
-                            {renderErr && privateErr.length > 0 && privateErr}
+                            {!!renderErr && privateErr.length > 0 && privateErr}
                         </div>
                     </div>
 

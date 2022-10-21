@@ -18,7 +18,7 @@ function OneGroupDetail() {
 
     const group = useSelector(state => state.groups.groups[groupId])
 
-    const organizer = useSelector(state => state.groups.oneGroup.Organizer.firstName + " " + state.groups.oneGroup.Organizer.lastName)
+    const organizer = useSelector(state => state.groups.oneGroup.Organizer)
 
     const sessionUser = useSelector(state => state.session.user);
 
@@ -53,10 +53,10 @@ function OneGroupDetail() {
           This action cannot be undone.`)) {
 
             dispatch(deleteGroup(groupId));
-            history.pushState('/groups');
+            history.push('/groups');
 
         } else {
-            history.pushState(`/groups/${groupId}`);
+            history.push(`/groups/${groupId}`);
         }
     };
 
@@ -104,7 +104,7 @@ function OneGroupDetail() {
             </div>
             <div className='right-div'>
                 <h1 className='title'>{group.name}</h1>
-                <h3 className='organizer'>Organized by: {organizer}</h3>
+                <h3 className='organizer'>Organized by: {organizer?.firstName} {organizer?.lastName} </h3>
             </div>
             {buttons}
         </div>

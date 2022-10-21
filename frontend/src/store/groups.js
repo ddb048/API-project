@@ -3,7 +3,7 @@ import { csrfFetch } from "./csrf";
 //*******************TYPES*********************/
 const LOAD_GROUPS = 'groups/LOAD'
 const ADD_GROUP = 'groups/ADD'
-const ADD_IMAGE = 'groups/ADD_IMAGE'
+// const ADD_IMAGE = 'groups/ADD_IMAGE'
 const REMOVE_GROUP = 'groups/REMOVE'
 const EDIT_GROUP = 'groups/EDIT'
 const LOAD_ONE_GROUP = 'groups/LOAD_ONE'
@@ -19,10 +19,10 @@ const addGroup = newGroup => ({
     newGroup
 })
 
-const addImage = image => ({
-    type: ADD_IMAGE,
-    image
-})
+// const addImage = image => ({
+//     type: ADD_IMAGE,
+//     image
+// })
 
 const removeGroup = groupId => ({
     type: REMOVE_GROUP,
@@ -64,7 +64,7 @@ export const createGroup = (newGroup) => async dispatch => {
         return newGroup;
     }
 }
-//POST /api/groups (GREATE)
+//POST /api/groups (CREATE)
 export const addGroupImage = (groupId, image) => async dispatch => {
     const response = await csrfFetch(`/api/groups/${groupId}/images`, {
         method: 'POST',
@@ -73,7 +73,7 @@ export const addGroupImage = (groupId, image) => async dispatch => {
 
     if (response.ok) {
         const newImage = await response.json();
-        dispatch(addImage(newImage));
+        dispatch(getGroupDetails(groupId));
         return newImage;
     }
 }
@@ -123,6 +123,7 @@ export const groupReducer = (state = initialState, action) => {
 
     let newState;
     let groups;
+    let oneGroup;
     switch (action.type) {
 
         case LOAD_GROUPS:
@@ -138,19 +139,20 @@ export const groupReducer = (state = initialState, action) => {
             delete newState[action.groupId];
             return newState;
 
-        case ADD_IMAGE:
-            newState = { ...state, oneGroup: { ...state.oneGroup } }
-            let groupImages = [];
-            groupImages.push(action.image);
-            newState.oneGroup.groupImages = groupImages;
-            return newState;
+        // case ADD_IMAGE:
+        //     newState = { ...state };
+        //     oneGroup = { ...state.oneGroup };
+        //     let groupImages = [];
+        //     groupImages.push(action.image);
+        //     newState.oneGroup.groupImages = groupImages;
+        //     return newState;
 
         case EDIT_GROUP:
             newState = { ...state, [action.group.id]: action.group };
             return newState;
 
         case LOAD_ONE_GROUP:
-            let oneGroup = {};
+            oneGroup = {};
             newState = { ...state };
             oneGroup = { ...action.group };
             newState.oneGroup = oneGroup;

@@ -35,7 +35,7 @@ function ProfileButton({ user }) {
     return (
         <>
 
-            <Link className="create-group" to="">Create a Group</Link>
+            <Link className="create-group" to="/groups/new">Create a Group</Link>
             <div className="profile-button" onClick={openMenu}>
                 <div className="profile-menu">
                     <img className="profile-pic" src={profile} />

@@ -42,13 +42,15 @@ function App() {
             <EditGroupForm groups={groups} />
           </Route>
 
-          <Route path='/groups/new'>
+
+          <Route exact path='/groups/new'>
             <CreateGroupForm />
           </Route>
 
-          <Route path='/groups/:groupId'>
+          <Route exact path='/groups/:groupId'>
             <OneGroupDetail />
           </Route>
+
 
           <Route path='/groups'>
             <Groups />
