@@ -50,7 +50,7 @@ function Splash() {
                         <p className="p">Events are happening on just about any topic you can think of, from online crime-fighting to in-person vigilantism</p>
                     </div>
                 </Link>
-                <Link className='link' to=''>
+                <Link className='link' to='/groups/new'>
                     <div className="card">
                         <div className="svg-div">
                             <img className="svg" src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256" />
