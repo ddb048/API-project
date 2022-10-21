@@ -9,6 +9,19 @@
 
 }
 
+.nav-text {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-button {
+    display: flex;
+    padding-top: 4px;
+    padding-right: 6px;
+    column-gap: 10px;
+    justify-content: space-between;
+}
+
 .nav-bar-right {
     display: flex;
     justify-content: space-between;

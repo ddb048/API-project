@@ -9,9 +9,9 @@ function Splash() {
     return (
         <div className="main">
             <div className="background-svgs">
-                <img className="green-blob" viewbox="0 20 10 10" src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" />
+                <img className="green-blob" viewBox="0 20 10 10" src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" />
 
-                <img className="yellow-blob" viewbox='10 10 4 10' src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
+                <img className="yellow-blob" viewBox='10 10 4 10' src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
 
                 <img className="red-blob" src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
             </div>
@@ -32,7 +32,7 @@ function Splash() {
                 <p>Meet new people who share your interests through online and in-person events.  It's free to create an account and fight bad guys</p>
             </div>
             <div className="interaction-center">
-                <Link className="link" to=''>
+                <Link className="link" to='/groups'>
                     <div className="card">
                         <div className="svg-div">
                             <img className="svg" src="https://secure.meetupstatic.com/next/images/shared/handsUp.svg?w=256" />
@@ -50,7 +50,7 @@ function Splash() {
                         <p className="p">Events are happening on just about any topic you can think of, from online crime-fighting to in-person vigilantism</p>
                     </div>
                 </Link>
-                <Link className='link' to=''>
+                <Link className='link' to='/groups/new'>
                     <div className="card">
                         <div className="svg-div">
                             <img className="svg" src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256" />

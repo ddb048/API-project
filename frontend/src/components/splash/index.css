@@ -5,6 +5,7 @@
 }
 
 .main-top {
+    padding-top: 8%;
     width: 75%;
     display: flex;
     justify-content: space-around;
@@ -69,6 +70,8 @@
     flex-direction: column;
     margin: 0px 30px;
     width: 50%;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
 .middle-center-h2 {
