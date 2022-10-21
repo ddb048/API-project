@@ -35,7 +35,7 @@ function CreateGroupForm() {
     const [stateErr, setStateErr] = useState('');
     const [urlErr, setUrlErr] = useState('');
     const [typeErr, setTypeErr] = useState('');
-    const [accessErr, setAccessErr] = useState('');
+    const [privateErr, setPrivateErr] = useState('');
     const [renderErr, setRenderErr] = useState(false);
 
     /***********************Helper Functions******************* */
@@ -46,7 +46,6 @@ function CreateGroupForm() {
     /********************Use Effect********************* */
 
     useEffect(() => {
-        const errs = [];
 
         //name error handling
         if (!name.length) {
@@ -83,7 +82,7 @@ function CreateGroupForm() {
 
         //private error handling
         if (groupPrivate !== 'true' || groupPrivate !== 'false') {
-            setPrivateErr('Private must be true or false')
+            setPrivateErr('Access must be Public or Private')
             setRenderErr(true)
         }
 
@@ -96,7 +95,6 @@ function CreateGroupForm() {
             setRenderErr(true)
         }
 
-        setErrors(errs);
 
     }, [name, about, city, state, prevImg, groupPrivate, type])
 
@@ -133,7 +131,7 @@ function CreateGroupForm() {
             }).catch(async (response) => {
                 const data = await response.json();
 
-                if (data && data.message) setBackEndErrors(data.message);
+                if (data && data.message) setBackEndErrors([data.message]);
             });
         }
     }
@@ -197,9 +195,60 @@ function CreateGroupForm() {
                             {renderErr && stateErr.length > 0 && stateErr}
                         </div>
                     </div>
+                    <div className='input-main'>
+                        <div className='label'>Group Image</div>
+                        <div className='input'>
+                            <input type='text'
+                                value={prevImg}
+                                onChange={(e) => setPrevImg(e.target.value)}
+                            />
+                        </div>
+                        <div className='field-error'>
+                            {renderErr && urlErr.length > 0 && urlErr}
+                        </div>
+                    </div>
+                    <div className='input-main'>
+                        <div className='label'>Group Type</div>
+                        <div className='input'>
+                            <select type='text'
+                                value={type}
+                                onChange={(e) => setType(e.target.value)}
+                            >
+                                <option value={' '}>Select Group Type</option>
+                                <option value={'In person'}>In person</option>
+                                <option value={'Online'}>Online</option>
+                            </select>
+                        </div>
+                        <div className='field-error'>
+                            {renderErr && typeErr.length > 0 && typeErr}
+                        </div>
+                    </div>
+                    <div className='input-main'>
+                        <div className='label'>Group Access</div>
+                        <div className='input'>
+                            <select type='text'
+                                value={groupPrivate}
+                                onChange={(e) => setGroupPrivate(e.target.value)}
+                            >
+                                <option value={' '}>Select Group Access</option>
+                                <option value={false}>Public</option>
+                                <option value={true}>Private</option>
+                            </select>
+                        </div>
+                        <div className='field-error'>
+                            {renderErr && privateErr.length > 0 && privateErr}
+                        </div>
+                    </div>
+
+                    <div className='submit-button-div'>
+                        <button className='submit-button'
+                            type='submit'
+                            disabled={backEndErrors.length}
+                        >Create Group</button>
+                    </div>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }
 
