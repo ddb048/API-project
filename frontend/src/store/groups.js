@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 
 //*******************TYPES*********************/
 const LOAD_GROUPS = 'groups/LOAD'
-const ADD_GROUP = 'groups/ADD'
+// const ADD_GROUP = 'groups/ADD'
 // const ADD_IMAGE = 'groups/ADD_IMAGE'
 const REMOVE_GROUP = 'groups/REMOVE'
 const EDIT_GROUP = 'groups/EDIT'
@@ -14,10 +14,10 @@ const loadGroups = groups => ({
     groups
 })
 
-const addGroup = newGroup => ({
-    type: ADD_GROUP,
-    newGroup
-})
+// const addGroup = newGroup => ({
+//     type: ADD_GROUP,
+//     newGroup
+// })
 
 // const addImage = image => ({
 //     type: ADD_IMAGE,
@@ -60,7 +60,7 @@ export const createGroup = (newGroup) => async dispatch => {
 
     if (response.ok) {
         const newGroup = await response.json();
-        dispatch(addGroup(newGroup));
+        dispatch(getGroupDetails(newGroup));
         return newGroup;
     }
 }
@@ -121,7 +121,7 @@ const initialState = {
 
 export const groupReducer = (state = initialState, action) => {
 
-    let newState;
+    let newState = {};
     let groups;
     let oneGroup;
     switch (action.type) {
@@ -134,7 +134,12 @@ export const groupReducer = (state = initialState, action) => {
             return newState;
 
 
-        case ADD_GROUP:
+        // case ADD_GROUP:
+        //     newState = { ...state, [action.newGroup.id]: action.newGroup };
+        //     return newState;
+
+
+        case REMOVE_GROUP:
             newState = { ...state };
             delete newState[action.groupId];
             return newState;
@@ -153,9 +158,8 @@ export const groupReducer = (state = initialState, action) => {
 
         case LOAD_ONE_GROUP:
             oneGroup = {};
-            newState = { ...state };
-            oneGroup = { ...action.group };
-            newState.oneGroup = oneGroup;
+            newState.groups = { ...state.groups, [action.group.id]: action.group };
+            newState.oneGroup = { ...action.group };
 
             return newState;
 

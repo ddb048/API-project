@@ -16,8 +16,8 @@ function OneGroupDetail() {
     /*********************State************************/
 
 
-    const group = useSelector(state => state.groups.groups[groupId])
-
+    const group = useSelector(state => state.groups.oneGroup)
+    console.log("GROUP", group)
     const organizer = useSelector(state => state.groups.oneGroup.Organizer)
 
     const sessionUser = useSelector(state => state.session.user);
@@ -43,7 +43,7 @@ function OneGroupDetail() {
     const handleEdit = async (e) => {
         e.preventDefault();
 
-        history.pushState(`/groups/${groupId}/edit`);
+        history.push(`/groups/${groupId}/edit`);
     }
 
     const handleDelete = async (e) => {
@@ -62,7 +62,7 @@ function OneGroupDetail() {
 
     /**************************Early Return*************************/
 
-    if (!group) {
+    if (!Object.values(group).length) {
         return (
             <>
                 <div className='error-img-div'>
@@ -94,7 +94,8 @@ function OneGroupDetail() {
             <div className='left-div'>
                 <div className='group-section'>
                     <div className='group-image'>
-                        <img className='img' src={group.previewImage}></img>
+
+                        <img className='img' src={group?.GroupImages[0]?.url}></img>
                     </div>
                     <div className='group-info'>
                         <h3 className='h3'>About</h3>
