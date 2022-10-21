@@ -79,6 +79,7 @@ function OneGroupDetail() {
             <div className='group-buttons'>
                 <div className='edit-button' onClick={handleEdit}>Edit</div>
                 <div className='delete-button' onClick={handleDelete}>Delete</div>
+                <div className='event-button' onClick={history.push('/events/new')}>Create An Event</div>
             </div>
         )
     } else {
