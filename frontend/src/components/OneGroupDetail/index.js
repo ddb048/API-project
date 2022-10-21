@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
-import { getGroupDetails, deleteGroup } from '../../store/groups';
+import { getGroupDetails, deleteGroup, clearGroup } from '../../store/groups';
 
 import './index.css'
 
@@ -34,8 +34,10 @@ function OneGroupDetail() {
             if (data && data.message) {
                 setPageNotFound(data.message)
             }
-        }
-        );
+        });
+
+        return (() => dispatch(clearGroup()))
+
     }, [dispatch, groupId]);
 
 
