@@ -62,6 +62,11 @@ function OneGroupDetail() {
         }
     };
 
+    const createEvent = async (e) => {
+        e.preventDefault()
+        history.push(`/groups/${groupId}/events/new`);
+    }
+
     /**************************Early Return*************************/
 
     if (!Object.values(group).length) {
@@ -79,7 +84,7 @@ function OneGroupDetail() {
             <div className='group-buttons'>
                 <div className='edit-button' onClick={handleEdit}>Edit</div>
                 <div className='delete-button' onClick={handleDelete}>Delete</div>
-                <div className='event-button' onClick={history.push(`groups/${groupId}/events/new`)}>Create An Event</div>
+                <button className='event-button' onClick={createEvent}>Create An Event</button>
             </div>
         )
     } else {
