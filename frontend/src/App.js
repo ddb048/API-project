@@ -10,6 +10,9 @@ import { getAllGroups } from "./store/groups";
 import OneGroupDetail from './components/OneGroupDetail'
 import CreateGroupForm from "./components/CreateGroupForm";
 import EditGroupForm from "./components/EditGroupForm";
+import Events from './components/Events';
+import OneEventDetail from './components/OneEventDetail';
+import CreateEventForm from './components/CreateEventForm';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,25 +41,33 @@ function App() {
             <Splash />
           </Route>
 
-          <Route path='/groups/:groupId/edit'>
-            <EditGroupForm groups={groups} />
-          </Route>
-
-
           <Route exact path='/groups/new'>
             <CreateGroupForm />
           </Route>
 
-          <Route exact path='/groups/:groupId'>
+          <Route path='/groups/:groupId/events/new'>
+            <CreateEventForm />
+          </Route>
+
+          <Route path='/groups/:groupId/edit'>
+            <EditGroupForm groups={groups} />
+          </Route>
+
+          <Route path='/groups/:groupId'>
             <OneGroupDetail />
           </Route>
 
+          <Route path='/events/:eventId'>
+            <OneEventDetail />
+          </Route>
 
-          <Route path='/groups'>
+          <Route exact path='/groups'>
             <Groups />
           </Route>
 
-
+          <Route exact path='/events'>
+            <Events />
+          </Route>
 
         </Switch>
       )}
