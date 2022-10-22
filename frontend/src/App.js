@@ -41,32 +41,31 @@ function App() {
             <Splash />
           </Route>
 
-          <Route path='/groups/:groupId/edit'>
-            <EditGroupForm groups={groups} />
-          </Route>
-
-
           <Route exact path='/groups/new'>
             <CreateGroupForm />
           </Route>
 
-          <Route exact path='/groups/:groupId'>
-            <OneGroupDetail />
+          <Route path='/groups/:groupId/events/new'>
+            <CreateEventForm />
           </Route>
 
-          <Route path='groups/:groupId/events/new'>
-            <CreateEventForm />
+          <Route path='/groups/:groupId/edit'>
+            <EditGroupForm groups={groups} />
+          </Route>
+
+          <Route path='/groups/:groupId'>
+            <OneGroupDetail />
           </Route>
 
           <Route path='/events/:eventId'>
             <OneEventDetail />
           </Route>
 
-          <Route path='/groups'>
+          <Route exact path='/groups'>
             <Groups />
           </Route>
 
-          <Route path='/events'>
+          <Route exact path='/events'>
             <Events />
           </Route>
 

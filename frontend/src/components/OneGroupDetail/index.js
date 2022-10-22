@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 
 import { getGroupDetails, deleteGroup, clearGroup } from '../../store/groups';
 
@@ -11,7 +11,7 @@ function OneGroupDetail() {
     const { groupId } = useParams();
     let dispatch = useDispatch();
     let history = useHistory();
-    const [pageNotFound, setPageNotFound] = useState('')
+    const [backEndErrors, setBackEndErrors] = useState('')
 
     /*********************State************************/
 
@@ -32,7 +32,7 @@ function OneGroupDetail() {
             const data = await res.json()
 
             if (data && data.message) {
-                setPageNotFound(data.message)
+                setBackEndErrors(data.message)
             }
         });
 
@@ -62,10 +62,6 @@ function OneGroupDetail() {
         }
     };
 
-    const createEvent = async (e) => {
-        e.preventDefault()
-        history.push(`/groups/${groupId}/events/new`);
-    }
 
     /**************************Early Return*************************/
 
@@ -84,7 +80,7 @@ function OneGroupDetail() {
             <div className='group-buttons'>
                 <div className='edit-button' onClick={handleEdit}>Edit</div>
                 <div className='delete-button' onClick={handleDelete}>Delete</div>
-                <button className='event-button' onClick={createEvent}>Create An Event</button>
+                <Link className='event-button' to={`/groups/${groupId}/events/new`}>Create An Event</Link>
             </div>
         )
     } else {
@@ -94,6 +90,7 @@ function OneGroupDetail() {
 
     return (
         <div className='main'>
+            <div className='backend-errors'>{backEndErrors}</div>
             <div className='left-div'>
                 <div className='group-section'>
                     <div className='group-image'>

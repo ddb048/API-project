@@ -58,7 +58,7 @@ function OneEventDetail() {
                 <div className='title'>{event.name}</div>
                 <div className='organizer-container'>
                     <div className='Organizer'>Event Organizer</div>
-                    <div className='organizer-name'>{group?.Organizer?.firstName} {group?.Organizer?.lastName}</div>
+                    <div className='organizer-name'>{group.Organizer?.firstName} {group.Organizer?.lastName}</div>
                 </div>
 
                 <div className='left-side'>

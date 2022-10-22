@@ -283,6 +283,9 @@ function CreateEventForm() {
                             <DatePicker
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
+                                timeInputLabel="Event Start Time:"
+                                dateFormat='MM/dd/yyyy h:mm aa'
+                                showTimeInput
                             />
                         </div>
                         <div className='field-error'>
@@ -295,6 +298,9 @@ function CreateEventForm() {
                             <DatePicker
                                 selected={endDate}
                                 onChange={(date) => setEndDate(date)}
+                                timeInputLabel="Event Start Time:"
+                                dateFormat='MM/dd/yyyy h:mm aa'
+                                showTimeInput
                             />
                         </div>
                         <div className='field-error'>
