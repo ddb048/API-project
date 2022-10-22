@@ -1,4 +1,5 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -7,22 +8,21 @@ import { createEvent } from '../../store/events';
 import { getAllGroups } from '../../store/groups';
 import { addEventImage } from '../../store/events';
 
+import "react-datepicker/dist/react-datepicker.css"
 import './index.css';
 
-const defaultDate = () => {
-    const newDate = new Date().toISOString().slice(0, 10);
-    return newDate;
-};
-
 function CreateEventForm() {
+    const { groupId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
 
     /**************State************** */
 
     const user = useSelector(state => state.session.user);
+    console.log('user', user)
     const groupsObj = useSelector(state => state.groups.groups)
     const groupsArr = Object.values(groupsObj);
+    console.log("groupsArr", groupsArr)
     const groups = groupsArr.filter(group => user.id === group.organizerId);
 
     //field states
@@ -30,19 +30,31 @@ function CreateEventForm() {
     const [description, setDescription] = useState('');
     const [capacity, setCapacity] = useState('')
     const [price, setPrice] = useState('0.00');
-    const [startDate, setStartDate] = useState(`${defaultDate()}`);
-    const [time, setTime] = useState('06:00');
-    const [endTime, setEndTime] = useState('06:00');
-    const [type, setType] = useState('');
-    const [endDate, setEndDate] = useState(`${defaultDate()}`);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
+    // const [startYear, setStartYear] = useState(2022);
+    // const [startMonth, setStartMonth] = useState(01);
+    // const [startDay, setStartDay] = useState(01);
+    // const [startHours, setStartHours] = useState(01);
+    // const [startMin, setStartMin] = useState(01);
+    // const [endYear, setEndYear] = useState(2022);
+    // const [endMonth, setEndMonth] = useState(01);
+    // const [endDay, setEndDay] = useState(01);
+    // const [endHours, setEndHours] = useState(01);
+    // const [endMin, setEndMin] = useState(01);
+    const [type, setType] = useState('')
     const [prevImg, setPrevImg] = useState('');
     const [renderErr, setRenderErr] = useState(false)
+    const [backEndErrors, setBackEndErrors] = useState('')
 
     //field error states
     const [nameErr, setNameErr] = useState('');
     const [descriptionErr, setDescriptionErr] = useState('');
-    const [capacityErr, setCapacityErr] = useState('')
+    const [capacityErr, setCapacityErr] = useState('');
     const [typeErr, setTypeErr] = useState('');
+    const [startDateErr, setStartDateErr] = useState('');
+    const [endDateErr, setEndDateErr] = useState('');
     const [prevImgErr, setPrevImgErr] = useState('');
 
     /***********************Helper Functions******************* */
@@ -51,10 +63,23 @@ function CreateEventForm() {
         return /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/.test(str);
     }
 
-    const parseDate = (date, time) => {
-        return new Date(date + 'T' + time + ':00');
-    }
+    // const validateStartDate = (startYear, startMonth, startDay, startHours, startMin) => {
+    //     let possStart = new Date(`${startYear}, ${startMonth}, ${startDay}, ${startHours}, ${startMin}`)
 
+    //     if (possStart - new Date() < 0) {
+    //         setStartDateErr('This start date has already passed.')
+    //     } else {
+    //         setStartDate(possStart.toISOString())
+    //     }
+    // }
+
+    // const validateEndDate = (endYear, endMonth, endDay, endHours, endMin) => {
+    //     let possEnd = new Date(`${endYear}, ${endMonth}, ${endDay}, ${endHours}, ${endMin}`)
+
+    //     if (possEnd - (new Date(startDate)) < 0) {
+    //         setEndDateErr('The end date must be after the start date.')
+    //     }
+    // }
     /********************Use Effect********************* */
 
     useEffect(() => {
@@ -102,20 +127,56 @@ function CreateEventForm() {
             setTypeErr('')
         }
 
-    }, [name, description, capacity, price, image, type])
+        //startDate error handling
+        // (startYear, startMonth, startDay, startHours, startMin) => {
+        //     let possStart = new Date(`${startYear}, ${startMonth}, ${startDay}, ${startHours}, ${startMin}`)
+
+        // if (new Date(startDate) - new Date() < 0) {
+        //     setStartDateErr('This start date has already passed.')
+        // } else {
+        //     setStartDate(startDate.toISOString())
+        //     setStartDateErr('')
+        // }
+        if (startDate - new Date() < 0) {
+            setStartDateErr('This start date has already passed.')
+        } else {
+            setStartDateErr('')
+        }
+
+        //endDate error handling
+        // (endYear, endMonth, endDay, endHours, endMin) => {
+        //     let possEnd = new Date(`${endYear}, ${endMonth}, ${endDay}, ${endHours}, ${endMin}`)
+
+        // if (new Date(endDate) - (new Date(startDate)) < 0) {
+        //     setEndDateErr('The end date must be after the start date.')
+        // } else {
+        //     setEndDate(endDate.toISOString())
+        //     setEndDateErr('')
+        // }
+        if (endDate - startDate < 0) {
+            setEndDateErr('The end date must be after the start date.')
+        } else {
+            setEndDateErr('')
+        }
+
+
+        setBackEndErrors('')
+
+    }, [name, description, capacity, price, prevImg, type, startDate, endDate])
 
     /***************************On Submit************************** */
 
-    handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setRenderErr(true)
 
         if (
             !nameErr &&
             !descriptionErr &&
-            !timeErr &&
             !capacityErr &&
-            !prevImgErr
+            !prevImgErr &&
+            !startDateErr &&
+            !endDateErr
         ) {
             const payload = {
                 venueId: 1,
@@ -124,8 +185,8 @@ function CreateEventForm() {
                 capacity,
                 price,
                 description,
-                startDate: parseDate(startDate, time).toISOString(),
-                endDate: parseDate(endDate, endTime).toISOString()
+                startDate,
+                endDate
             }
 
             const newEvent = await dispatch(createEvent(groupId, payload))
@@ -140,6 +201,7 @@ function CreateEventForm() {
             }
             history.push(`/events/${newEvent.id}`);
         }
+
 
     }
 
@@ -174,7 +236,7 @@ function CreateEventForm() {
                             />
                         </div>
                         <div className='field-error'>
-                            {!!renderErr && aboutErr.length > 0 && aboutErr}
+                            {!!renderErr && descriptionErr.length > 0 && descriptionErr}
                         </div>
                     </div>
                     <div className='input-main'>
@@ -198,6 +260,7 @@ function CreateEventForm() {
                         <div className='input'>
                             <input type='number'
                                 value={capacity}
+                                min={2}
                                 onChange={(e) => setCapacity(e.target.value)}
                             />
                         </div>
@@ -217,30 +280,44 @@ function CreateEventForm() {
                     <div className='input-main'>
                         <div className='label'>Start Date</div>
                         <div className='input'>
-                            <input type='date'
-                                value={startDate}
-                                min={nextDate()}
-                                onChange={(e) => setStartDate(e.target.value)}
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
                             />
+                        </div>
+                        <div className='field-error'>
+                            {!!renderErr && startDateErr.length > 0 && startDateErr}
                         </div>
                     </div>
                     <div className='input-main'>
                         <div className='label'>End Date</div>
                         <div className='input'>
-                            <input type='date'
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
+                            <DatePicker
+                                selected={endDate}
+                                onChange={(date) => setEndDate(date)}
                             />
+                        </div>
+                        <div className='field-error'>
+                            {!!renderErr && endDateErr.length > 0 && endDateErr}
                         </div>
                     </div>
                     <div className='input-main'>
-                        <div className='label'>Event Time</div>
+                        <div className='label'>Group Image</div>
                         <div className='input'>
-                            <input type='time'
-                                value={time}
-                                onChange={(e) => setTime(e.target.value)}
+                            <input type='text'
+                                value={prevImg}
+                                onChange={(e) => setPrevImg(e.target.value)}
                             />
                         </div>
+                        <div className='field-error'>
+                            {!!renderErr && prevImgErr.length > 0 && prevImgErr}
+                        </div>
+                    </div>
+                    <div className='submit-button-div'>
+                        <button className='submit-button'
+                            type='submit'
+                            disabled={backEndErrors.length}
+                        >Create Event</button>
                     </div>
                 </div>
 
