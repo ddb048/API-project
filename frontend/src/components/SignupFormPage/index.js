@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignUpForm.css';
+import logo from '../../img/Beat-Up-Logo.png';
 
 function SignupFormPage() {
     const dispatch = useDispatch();
@@ -118,70 +119,104 @@ function SignupFormPage() {
             )}</div>
             <form onSubmit={handleSubmit}>
                 <div className="input-main">
-                    <div className="input">
-                        <label>
-                            <div className="title">Email</div>
-                            <input
-                                type="text"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </label>
+                    <div className="input-inner-div">
+                        <div className="input-header">First Name</div>
+                        <input
+                            className="input-field"
+                            type="text"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
                     </div>
-                    <div className="error-div">
+                    <div className="error-div" height={'6px'}>
+                        {renderErr && firstNameErr.length > 0 && firstNameErr}
+                    </div>
+                </div>
+                <div className="input-main">
+                    <div className="input-inner-div">
+                        <div className="input-header">Last Name</div>
+                        <input
+                            className="input-field"
+                            type="text"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                    </div>
+                    <div className="error-div" height={'6px'}>
+                        {renderErr && lastNameErr.length > 0 && lastNameErr}
+                    </div>
+                </div>
+                <div className="input-main">
+                    <div className="input-inner-div">
+                        <div className="input-header">Email</div>
+                        <input
+                            className="input-field"
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+                    <div className="error-div" height={'6px'}>
                         {renderErr && emailErr.length > 0 && emailErr}
                     </div>
                 </div>
                 <div className="input-main">
-                    <div className="input">
-                        <label>
-                            <div className="title">Username</div>
-                            <input
-                                type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
-                            />
-                        </label>
+                    <div className="input-inner-div">
+
+                        <div className="input-header">Username</div>
+                        <input
+                            className="input-field"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+
+                        />
+
                         <div className="error-div">
                             {renderErr && usernameErr.length > 0 && usernameErr}
                         </div>
                     </div>
                 </div>
                 <div className="input-main">
-                    <div className="input">
-                        <label>
-                            <div className="title">Password</div>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </label>
+                    <div className="input-inner-div">
+
+                        <div className="input-header">Password</div>
+                        <input
+                            className="input-field"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+
+                        />
+
                         <div className="error-div">
                             {renderErr && passwordErr.length > 0 && passwordErr}
                         </div>
                     </div>
                 </div>
                 <div className="input-main">
-                    <input>
-                        <label>
-                            <div className="title">Confirm Password</div>
-                            <input
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                            />
-                        </label>
+                    <div className="input-inner-div">
+
+                        <div className="input-header">Confirm Password</div>
+                        <input
+                            className="input-field"
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+
+                        />
+
                         <div className="error-div">
                             {renderErr && confirmPasswordErr.length > 0 && confirmPasswordErr}
                         </div>
-                    </input>
+                    </div>
                 </div>
-                <button type="submit">Sign Up</button>
+                <div className="submit-button">
+                    <button className='submit' type="submit">Sign Up</button>
+                </div>
+                <div className="logo-div">
+                    <img src={logo} />
+                </div>
             </form>
         </div>
     );
