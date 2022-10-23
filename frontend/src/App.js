@@ -13,6 +13,7 @@ import EditGroupForm from "./components/EditGroupForm";
 import Events from './components/Events';
 import OneEventDetail from './components/OneEventDetail';
 import CreateEventForm from './components/CreateEventForm';
+import Footer from './components/Footer';
 
 function App() {
   const dispatch = useDispatch();
@@ -70,7 +71,9 @@ function App() {
           </Route>
 
         </Switch>
+
       )}
+      <Footer isLoaded={isLoaded} />
     </>
   );
 }
