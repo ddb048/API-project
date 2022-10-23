@@ -20,7 +20,7 @@ function SignupFormPage() {
 
     //field state errors
     const [emailErr, setEmailErr] = useState('');
-    const [usernameErr, setUsernameErr] = usestate('');
+    const [usernameErr, setUsernameErr] = useState('');
     const [passwordErr, setPasswordErr] = useState('');
     const [firstNameErr, setFirstNameErr] = useState('');
     const [lastNameErr, setLastNameErr] = useState('');
@@ -28,16 +28,40 @@ function SignupFormPage() {
     const [renderErr, setRenderErr] = useState(false);
     const [errors, setErrors] = useState([]);
 
-    if (sessionUser) return <Redirect to="/" />;
     /********************Helper Function***************** */
 
     const validateEmail = (email) => {
         return /\S+@\S+\.\S+/.test(email);
-    }
+    };
+
+    /***********************On Submit********************* */
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setRenderErr(true)
+
+        if (
+            !usernameErr &&
+            !emailErr &&
+            !firstNameErr &&
+            !lastNameErr &&
+            !passwordErr &&
+            !confirmPasswordErr
+        ) {
+            setErrors([]);
+            return dispatch(sessionActions.signup({ email, username, password }))
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.message) setErrors(data.message);
+                });
+        }
+        return setErrors(['Confirm Password field must be the same as the Password field']);
+    };
+
     /********************Use Effect******************* */
 
     useEffect(() => {
-
         //email error handling
         if (email.length && !validateEmail(email)) {
             setEmailErr('invalid email')
@@ -81,32 +105,9 @@ function SignupFormPage() {
         } else {
             setConfirmPasswordErr("");
         }
+
+
     }, [username, email, firstName, lastName, password, confirmPassword])
-
-    /***********************On Submit********************* */
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setRenderErr(true)
-
-        if (
-            !usernameErr &&
-            !emailErr &&
-            !firstNameErr &&
-            !lastNameErr &&
-            !passwordErr &&
-            !confirmPasswordErr
-        ) {
-            setErrors([]);
-            return dispatch(sessionActions.signup({ email, username, password }))
-                .catch(async (res) => {
-                    const data = await res.json();
-                    if (data && data.message) setErrors(data.message);
-                });
-        }
-        return setErrors(['Confirm Password field must be the same as the Password field']);
-    };
 
     return (
         <div className="main">
@@ -128,6 +129,9 @@ function SignupFormPage() {
                             />
                         </label>
                     </div>
+                    <div className="error-div">
+                        {renderErr && emailErr.length > 0 && emailErr}
+                    </div>
                 </div>
                 <div className="input-main">
                     <div className="input">
@@ -140,6 +144,9 @@ function SignupFormPage() {
                                 required
                             />
                         </label>
+                        <div className="error-div">
+                            {renderErr && usernameErr.length > 0 && usernameErr}
+                        </div>
                     </div>
                 </div>
                 <div className="input-main">
@@ -153,6 +160,9 @@ function SignupFormPage() {
                                 required
                             />
                         </label>
+                        <div className="error-div">
+                            {renderErr && passwordErr.length > 0 && passwordErr}
+                        </div>
                     </div>
                 </div>
                 <div className="input-main">
@@ -166,6 +176,9 @@ function SignupFormPage() {
                                 required
                             />
                         </label>
+                        <div className="error-div">
+                            {renderErr && confirmPasswordErr.length > 0 && confirmPasswordErr}
+                        </div>
                     </input>
                 </div>
                 <button type="submit">Sign Up</button>
