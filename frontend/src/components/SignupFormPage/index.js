@@ -57,8 +57,9 @@ function SignupFormPage() {
                     const data = await res.json();
                     if (data && data.message) setErrors(data.message);
                 });
+            history.push('/');
         }
-        history.push('/');
+
         return setErrors(['Confirm Password field must be the same as the Password field']);
 
 
