@@ -53,16 +53,10 @@ function OneGroupDetail() {
 
     const handleDelete = async (e) => {
         e.preventDefault();
-
-        if (window.confirm(`Are you sure you'd like to delete ${group.name}?
-          This action cannot be undone.`)) {
-
-            await dispatch(deleteGroup(groupId)).then(history.push('/groups'));
+        await dispatch(deleteGroup(groupId)).then(history.push('/groups'));
 
 
-        } else {
-            history.push(`/groups/${groupId}`);
-        }
+
     };
 
     const handleEvent = async (e) => {
