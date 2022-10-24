@@ -32,10 +32,9 @@ function OneEventDetail() {
     }, [event])
 
     /**************Helper Function*********** */
-    const handleDelete = (e) => {
+    const handleDelete = async (e) => {
         e.preventDefault();
-        dispatch(deleteEvent(eventId));
-        history.push('/events');
+        await dispatch(deleteEvent(eventId)).then(history.push('/events'));
     }
 
     let setDate = (date) => {

@@ -89,3 +89,15 @@
 .full-input-block {
     padding: 2%;
 }
+
+.logo-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.img {
+    justify-content: center;
+    align-self: center;
+}

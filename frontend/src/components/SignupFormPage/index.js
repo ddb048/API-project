@@ -219,7 +219,7 @@ function SignupFormPage() {
                     <button className='submit' type="submit">Sign Up</button>
                 </div>
                 <div className="logo-div">
-                    <img src={logo} />
+                    <img clasName='img' src={logo} />
                 </div>
             </form>
         </div>
