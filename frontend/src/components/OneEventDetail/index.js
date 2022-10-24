@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteEvent, getEventDetails, getEventsByGroup, removeEvent } from '../../store/events';
 import { getGroupDetails } from '../../store/groups';
 import { useParams, useHistory, Link } from 'react-router-dom';
-
+import './index.css'
 
 function OneEventDetail() {
     const { eventId } = useParams();
@@ -53,31 +53,27 @@ function OneEventDetail() {
     }
 
     return (event && event.EventImages && group && group.GroupImages &&
-        <div className='main'>
-            <div className='top-main'>
-                <div className='title'>{event.name}</div>
-                <div className='organizer-container'>
-                    <div className='Organizer'>Event Organizer</div>
-                    <div className='organizer-name'>{group.Organizer?.firstName} {group.Organizer?.lastName}</div>
+        <div className='details-main'>
+            <div className='top-div'>
+                <div className='event-title'>{event.name}</div>
+
+                <div className='event-date'>{`${setDate(event.startDate).toUpperCase()} @ ${setTime(event.startDate)}`}</div>
+                <div className='img'>
+                    <img className='img' src={event.EventImages[0].url} />
+                </div>
+                <div className='details-container'>
+                    <div className='detail-title'>Details</div>
+                    <div className='event-details'>{event.description}</div>
+                    <div className='event-price'>Price: ${event.price}</div>
+                    <div className='organizer-name'>Event Organizer: {group.Organizer?.firstName} {group.Organizer?.lastName}</div>
+                    <div className='attending'>Attending: {event.numAttending} Guests</div>
+                    <div className='capacity'>Capacity: {event.capacity}</div>
                 </div>
 
-                <div className='left-side'>
-                    <div className='event-img'>
-                        <img className='img' src={event.EventImages[0].url} />
-                    </div>
-                    <div className='details-container'>
-                        <div className='title'>Details</div>
-                        <div className='event-details'>{event.description}</div>
-                        <div className='event-price'>Price: ${event.price}</div>
-                        <div className='date'>{`${setDate(event.startDate).toUpperCase()} @ ${setTime(event.startDate)}`}</div>
-                        <div className='attending'>Attending: {event.numAttending} Guests</div>
-                        <div className='capacity'>Capacity: {event.capacity}</div>
-                    </div>
-                </div>
 
-                <div className='right-side'>
+                <div className='bottom-div'>
                     <Link className='group-container' to={`/groups/${group.id}`}>
-                        <img className='group-img' src={group.GroupImages[0].url} />
+                        <img className='event-img' src={group.GroupImages[0].url} />
                         <div className='group-details'>
                             {event.Group &&
                                 <>
@@ -90,7 +86,7 @@ function OneEventDetail() {
                 </div>
                 <div className='owner-button'>
                     {user && group && user.id === group.organizerId &&
-                        <button className='delete button' onClick={handleDelete}>Delete Event</button>}
+                        <button className='ge-button' onClick={handleDelete}>Delete Event</button>}
                 </div>
             </div>
         </div>

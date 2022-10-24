@@ -2,12 +2,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     height: 100%;
     /* margin: 10%; */
     width: 80%;
     padding-left: 10%;
     padding-right: 10%;
-    padding-bottom: 50%;
+    /* padding-bottom: 50%; */
 }
 
 .detail-inner-div {
@@ -34,7 +35,7 @@
 }
 
 .group-about {
-    padding-bottom: 10%;
+    padding-bottom: 25px;
 }
 
 .group-buttons {

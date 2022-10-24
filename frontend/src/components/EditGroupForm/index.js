@@ -29,7 +29,7 @@ function EditGroupForm({ groups }) {
     const [groupPrivate, setGroupPrivate] = useState('');
     const [city, setCity] = useState(group?.city);
     const [state, setState] = useState(group?.state);
-    const [prevImg, setPrevImg] = useState("group?.GroupImages[0]?.url");
+    const [prevImg, setPrevImg] = useState(group?.GroupImages[0]?.url);
     const [backEndErrors, setBackEndErrors] = useState('');
 
     //field error states
