@@ -28,6 +28,7 @@ function OneGroupDetail() {
 
 
     useEffect(() => {
+
         dispatch(getGroupDetails(groupId)).catch(async res => {
             const data = await res.json()
 
@@ -36,10 +37,12 @@ function OneGroupDetail() {
             }
         });
 
-        return (() => dispatch(clearGroup()))
 
-    }, [dispatch, groupId]);
+    }, [groupId]);
 
+    useEffect(() => {
+        // return (() => dispatch(clearGroup()))
+    })
 
     /*********************onClick handlers************************/
     const handleEdit = async (e) => {
@@ -62,7 +65,11 @@ function OneGroupDetail() {
         }
     };
 
+    const handleEvent = async (e) => {
+        e.preventDefault();
 
+        history.push(`/groups/${groupId}/events/new`)
+    }
     /**************************Early Return*************************/
 
     if (!Object.values(group).length) {
@@ -78,9 +85,9 @@ function OneGroupDetail() {
     if (sessionUser && sessionUser.id === group.organizerId) {
         buttons = (
             <div className='group-buttons'>
-                <div className='edit-button' onClick={handleEdit}>Edit</div>
-                <div className='delete-button' onClick={handleDelete}>Delete</div>
-                <Link className='event-button' to={`/groups/${groupId}/events/new`}>Create An Event</Link>
+                <button className='ge-button' onClick={handleEdit}>Edit</button>
+                <button className='ge-button' onClick={handleDelete}>Delete</button>
+                <button className='ge-button' onClick={handleEvent}>Create An Event</button>
             </div>
         )
     } else {
@@ -89,25 +96,31 @@ function OneGroupDetail() {
     }
 
     return (
-        <div className='main'>
-            <div className='backend-errors'>{backEndErrors}</div>
-            <div className='left-div'>
-                <div className='group-section'>
-                    <div className='group-image'>
+        <div className='details-main'>
+            <div className='details-inner-div'>
+                <div className='backend-errors'>{backEndErrors}</div>
 
-                        <img className='img' src={group?.GroupImages[0]?.url}></img>
-                    </div>
-                    <div className='group-info'>
-                        <h3 className='h3'>About</h3>
-                        <p className='about'>{group.about}</p>
+                <div className='top-div'>
+                    <h1 className='detail-title'>{group.name}</h1>
+                    <h3 className='organizer'>Organized by: {organizer?.firstName} {organizer?.lastName} </h3>
+                </div>
+                <div className='bottom-div'>
+                    <div className='group-section'>
+                        <div className='group-image'>
+
+                            <img className='group-img' src={group?.GroupImages[0]?.url}></img>
+                        </div>
+                        <div className='group-info'>
+                            <h3 className='h3'>About</h3>
+                            <div className='group-about'>{group.about}</div>
+                        </div>
                     </div>
                 </div>
+
+                <div className='buttons'>
+                    {buttons}
+                </div>
             </div>
-            <div className='right-div'>
-                <h1 className='title'>{group.name}</h1>
-                <h3 className='organizer'>Organized by: {organizer?.firstName} {organizer?.lastName} </h3>
-            </div>
-            {buttons}
         </div>
 
     )

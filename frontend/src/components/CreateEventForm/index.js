@@ -213,36 +213,42 @@ function CreateEventForm() {
             <div className='backend-errors'>{backEndErrors}</div>
 
             <form onSubmit={handleSubmit}>
-                <div className='form-main'>
-                    <div className='input-main'>
-                        <div className='label'>Event Name</div>
-                        <div className='input'>
-                            <input type='text'
+                <div className='full-form-main-div'>
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Event Name</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='text'
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && nameErr.length > 0 && nameErr}
                         </div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>Event Description</div>
-                        <div className='input'>
-                            <input type='text'
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Event Description</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='text'
                                 maxLength={200}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && descriptionErr.length > 0 && descriptionErr}
                         </div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>Event Type</div>
-                        <div className='input'>
-                            <select type='text'
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Event Type</div>
+                        <div className='full-login-input'>
+                            <select
+                                className='full-input-field'
+                                type='text'
                                 value={type}
                                 onChange={(e) => setType(e.target.value)}
                             >
@@ -251,36 +257,42 @@ function CreateEventForm() {
                                 <option value={'Online'}>Online</option>
                             </select>
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && typeErr.length > 0 && typeErr}
                         </div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>Capacity</div>
-                        <div className='input'>
-                            <input type='number'
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Capacity</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='number'
                                 value={capacity}
                                 min={2}
                                 onChange={(e) => setCapacity(e.target.value)}
                             />
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && capacityErr.length > 0 && capacityErr}
                         </div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>Price</div>
-                        <div className='input'>
-                            <input type='number'
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Price</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='number'
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}
                             />
                         </div>
+                        <div className='full-input-error'></div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>Start Date</div>
-                        <div className='input'>
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Start Date</div>
+                        <div className='full-login-input'>
                             <DatePicker
+                                className='full-input-date'
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
                                 timeInputLabel="Event Start Time:"
@@ -288,14 +300,15 @@ function CreateEventForm() {
                                 showTimeInput
                             />
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && startDateErr.length > 0 && startDateErr}
                         </div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>End Date</div>
-                        <div className='input'>
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>End Date</div>
+                        <div className='full-login-input'>
                             <DatePicker
+                                className='full-input-date'
                                 selected={endDate}
                                 onChange={(date) => setEndDate(date)}
                                 timeInputLabel="Event Start Time:"
@@ -303,24 +316,26 @@ function CreateEventForm() {
                                 showTimeInput
                             />
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && endDateErr.length > 0 && endDateErr}
                         </div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>Group Image</div>
-                        <div className='input'>
-                            <input type='text'
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Group Image</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='text'
                                 value={prevImg}
                                 onChange={(e) => setPrevImg(e.target.value)}
                             />
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && prevImgErr.length > 0 && prevImgErr}
                         </div>
                     </div>
-                    <div className='submit-button-div'>
-                        <button className='submit-button'
+                    <div className='full-login-button-div'>
+                        <button className='full-login-button'
                             type='submit'
                             disabled={backEndErrors.length}
                         >Create Event</button>
