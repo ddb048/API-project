@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 
 //*******************TYPES*********************/
 const LOAD_GROUPS = 'groups/LOAD'
-// const ADD_GROUP = 'groups/ADD'
+const ADD_GROUP = 'groups/ADD'
 // const ADD_IMAGE = 'groups/ADD_IMAGE'
 const REMOVE_GROUP = 'groups/REMOVE'
 const EDIT_GROUP = 'groups/EDIT'
@@ -15,10 +15,10 @@ const loadGroups = groups => ({
     groups
 })
 
-// const addGroup = newGroup => ({
-//     type: ADD_GROUP,
-//     newGroup
-// })
+const addGroup = newGroup => ({
+    type: ADD_GROUP,
+    newGroup
+})
 
 // const addImage = image => ({
 //     type: ADD_IMAGE,
@@ -96,8 +96,8 @@ export const deleteGroup = (groupId) => async dispatch => {
     }
 }
 //PUT /api/groups/:groupId (UPDATE)
-export const updateGroup = group => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${group.id}`, {
+export const updateGroup = (group, groupId) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
         method: 'PUT',
         body: JSON.stringify(group)
     });
@@ -113,7 +113,7 @@ export const getGroupDetails = groupId => async dispatch => {
     const response = await csrfFetch(`/api/groups/${groupId}`);
     if (response.ok) {
         const group = await response.json();
-        dispatch(loadOneGroup(group));
+        dispatch(addGroup(group));
         console.log('group from thunk', group)
         return group;
     }
@@ -127,7 +127,7 @@ const initialState = {
 
 export const groupReducer = (state = initialState, action) => {
 
-    let newState = {};
+    let newState = { ...state };
     let groups;
     let oneGroup;
     switch (action.type) {
@@ -140,9 +140,11 @@ export const groupReducer = (state = initialState, action) => {
             return newState;
 
 
-        // case ADD_GROUP:
-        //     newState = { ...state, [action.newGroup.id]: action.newGroup };
-        //     return newState;
+        case ADD_GROUP:
+            // newState = { ...state, [action.newGroup.id]: action.newGroup };
+            newState.groups[action.newGroup.id] = action.newGroup;
+            newState.oneGroup = action.newGroup
+            return newState;
 
 
         case REMOVE_GROUP:

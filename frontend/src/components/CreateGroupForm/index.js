@@ -158,103 +158,117 @@ function CreateGroupForm() {
             <div className='backend-errors'>{backEndErrors}</div>
 
             <form onSubmit={handleSubmit}>
-                <div className='form-main'>
-                    <div className='input-main'>
-                        <div className='label'>Group Name</div>
-                        <div className='input'>
-                            <input type='text'
+                <div className='full-form-main-div'>
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Group Name</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='text'
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && nameErr.length > 0 && nameErr}
                         </div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>Group Description</div>
-                        <div className='input'>
-                            <input type='text'
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Group Type</div>
+                        <div className='full-login-input'>
+                            <select
+                                className='full-input-dropdown'
+                                type='text'
+                                value={type}
+                                onChange={(e) => setType(e.target.value)}
+                            >
+                                <option className='full-option' value={' '}>Select Group Type</option>
+                                <option className='full-option' value={'In person'}>In person</option>
+                                <option className='full-option' value={'Online'}>Online</option>
+                            </select>
+                        </div>
+                        <div className='full-input-error'>
+                            {!!renderErr && typeErr.length > 0 && typeErr}
+                        </div>
+                    </div>
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Group Access</div>
+                        <div className='full-login-input'>
+                            <select
+                                className='full-input-dropdown'
+                                type='text'
+                                value={groupPrivate}
+                                onChange={(e) => setGroupPrivate(e.target.value)}
+                            >
+                                <option className='full-option' value={' '}>Select Group Access</option>
+                                <option className='full-option' value={false}>Public</option>
+                                <option className='full-option' value={true}>Private</option>
+                            </select>
+                        </div>
+                        <div className='full-input-error'>
+                            {!!renderErr && privateErr.length > 0 && privateErr}
+                        </div>
+                    </div>
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>City</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='text'
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                            />
+                        </div>
+                        <div className='full-input-error'>
+                            {!!renderErr && cityErr.length > 0 && cityErr}
+                        </div>
+                    </div>
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>State</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='text'
+                                value={state}
+                                onChange={(e) => setState(e.target.value)}
+                            />
+                        </div>
+                        <div className='full-input-error'>
+                            {!!renderErr && stateErr.length > 0 && stateErr}
+                        </div>
+                    </div>
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Group Image</div>
+                        <div className='full-login-input'>
+                            <input
+                                className='full-input-field'
+                                type='text'
+                                value={prevImg}
+                                onChange={(e) => setPrevImg(e.target.value)}
+                            />
+                        </div>
+                        <div className='full-input-error'>
+                            {!!renderErr && urlErr.length > 0 && urlErr}
+                        </div>
+                    </div>
+
+                    <div className='full-input-inner-div'>
+                        <div className='full-input-header'>Description</div>
+                        <div className='full-login-input'>
+                            <textarea
+                                className='full-input-block'
+                                type='text'
                                 maxLength={200}
                                 value={about}
                                 onChange={(e) => setAbout(e.target.value)}
                             />
                         </div>
-                        <div className='field-error'>
+                        <div className='full-input-error'>
                             {!!renderErr && aboutErr.length > 0 && aboutErr}
                         </div>
                     </div>
-                    <div className='input-main'>
-                        <div className='label'>City</div>
-                        <div className='input'>
-                            <input type='text'
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                            />
-                        </div>
-                        <div className='field-error'>
-                            {!!renderErr && cityErr.length > 0 && cityErr}
-                        </div>
-                    </div>
-                    <div className='input-main'>
-                        <div className='label'>State</div>
-                        <div className='input'>
-                            <input type='text'
-                                value={state}
-                                onChange={(e) => setState(e.target.value)}
-                            />
-                        </div>
-                        <div className='field-error'>
-                            {!!renderErr && stateErr.length > 0 && stateErr}
-                        </div>
-                    </div>
-                    <div className='input-main'>
-                        <div className='label'>Group Image</div>
-                        <div className='input'>
-                            <input type='text'
-                                value={prevImg}
-                                onChange={(e) => setPrevImg(e.target.value)}
-                            />
-                        </div>
-                        <div className='field-error'>
-                            {!!renderErr && urlErr.length > 0 && urlErr}
-                        </div>
-                    </div>
-                    <div className='input-main'>
-                        <div className='label'>Group Type</div>
-                        <div className='input'>
-                            <select type='text'
-                                value={type}
-                                onChange={(e) => setType(e.target.value)}
-                            >
-                                <option value={' '}>Select Group Type</option>
-                                <option value={'In person'}>In person</option>
-                                <option value={'Online'}>Online</option>
-                            </select>
-                        </div>
-                        <div className='field-error'>
-                            {!!renderErr && typeErr.length > 0 && typeErr}
-                        </div>
-                    </div>
-                    <div className='input-main'>
-                        <div className='label'>Group Access</div>
-                        <div className='input'>
-                            <select type='text'
-                                value={groupPrivate}
-                                onChange={(e) => setGroupPrivate(e.target.value)}
-                            >
-                                <option value={' '}>Select Group Access</option>
-                                <option value={false}>Public</option>
-                                <option value={true}>Private</option>
-                            </select>
-                        </div>
-                        <div className='field-error'>
-                            {!!renderErr && privateErr.length > 0 && privateErr}
-                        </div>
-                    </div>
-
-                    <div className='submit-button-div'>
-                        <button className='submit-button'
+                    <div className='full-login-button-div'>
+                        <button className='full-login-button'
                             type='submit'
                             disabled={backEndErrors.length}
                         >Create Group</button>

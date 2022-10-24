@@ -10,20 +10,21 @@ function GroupDetail({ group }) {
         <Link className='link-to-group' to={`/groups/${group.id}`}>
             <div className='main-group-listing'>
                 <div className='listing-image'>
-                    <img src={group.previewImage} />
+                    <img className='img' src={group.previewImage} />
                 </div>
                 <div className='group-details'>
-                    <p className='group-name'>{group.name}</p>
+                    <div className='group-name'>{group.name}</div>
                     <div className='group-location'>
                         {group.city}, {group.state}
                     </div>
                     <div className='group-about'>
-                        <p className='about-text'>{group.about}</p>
+                        <div className='group-title'>Group Description:</div>
+                        <div className='about-text'>{group.about}</div>
                     </div>
                     <div className='group-members'>
-                        <div className='numMembers'>{group.numMembers}</div>
+                        <div className='numMembers'>Members: {group.numMembers}</div>
                         <div className='private'>
-                            {group.private ? 'Private' : 'Public'}
+                            {group.private ? 'Private' : 'Public'} Group
                         </div>
                     </div>
                 </div>

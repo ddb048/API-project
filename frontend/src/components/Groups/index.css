@@ -1,0 +1,51 @@
+.ge-main {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 200px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.groupList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.no-groups {
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+    top: 10px;
+}
+
+.no-groups-text {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.groups-inner-container {
+    display: flex;
+
+
+}
+
+.ge-title {
+    text-align: flex-start;
+    color: rgb(1, 130, 148);
+    font-size: large;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 2%;
+}
+
+.ge-title:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 1px;
+
+}
