@@ -43,16 +43,15 @@ function Events() {
     }
 
     return (
-        <div className='main'>
-            <div className='eventList-container'>
-                <div className='links'>
-                    <Link to={'/events'}>Events</Link>
-                    <Link to={'/groups'}>Groups</Link>
-                </div>
-                <div className='eventList-list'>
-                    {eventsList}
-                </div>
+        <div className='ge-main'>
+            <div className='groups-inner-container'>
+                <Link className='ge-title' to={'/events'}>Events</Link>
+                <Link className='ge-title' to={'/groups'}>Groups</Link>
             </div>
+            <div className='groupList'>
+                {eventsList}
+            </div>
+
         </div>
     )
 }

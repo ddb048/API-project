@@ -33,6 +33,15 @@
     width: 100%;
 }
 
+.group-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-size: small;
+    padding: 2%;
+}
 
 .group-details {
     width: 80%;
@@ -74,4 +83,10 @@
 
 .private {
     font-size: small;
+}
+
+.event-img {
+    width: 50%;
+    height: 50%;
+    padding-right: 6%;
 }
