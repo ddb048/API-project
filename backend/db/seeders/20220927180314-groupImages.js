@@ -21,7 +21,7 @@ module.exports = {
         preview: true
       }, {
         groupId: 5,
-        url: "https://static1.squarespace.com/static/6284242c2959060c0f3617d8/t/62843d81b7d1d5182eb67ecc/1664080922277/",
+        url: "https://www.signupgenius.com/cms/images/bible-study-lesson-tips-small-group-leaders-600x400.jpg",
         preview: true
       }], {})
   },
