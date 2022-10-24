@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('EventImages', [
       {
         eventId: 1,
-        url: "https://static.wikia.nocookie.net/middle-earth-film-saga/images/5/57/PARTY_OF_BILBO.jpg/revision/latest?cb=20190916221320",
+        url: "https://st4.depositphotos.com/3343365/24565/i/600/depositphotos_245650834-free-stock-photo-man-gives-woman-gift-red.jpg",
         preview: true
       },
       {
@@ -14,7 +14,7 @@ module.exports = {
         preview: false
       }, {
         eventId: 3,
-        url: "https://i.guim.co.uk/img/media/aa73db67df7d318fa25e6f6a15a309ad336a8826/0_71_4261_2557/master/4261.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=8fc18b4439dbf09a62cec3c7dab88b7f",
+        url: "https://st4.depositphotos.com/13194036/22335/i/600/depositphotos_223357792-free-stock-photo-young-beautiful-woman-glittery-makeup.jpg"
         preview: true
       }, {
         eventId: 4,
