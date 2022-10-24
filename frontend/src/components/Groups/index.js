@@ -9,7 +9,7 @@ import GroupDetail from "../GroupDetail";
 function Groups() {
     let dispatch = useDispatch();
     const groupsObj = useSelector(state => state.groups.groups)
-
+    console.log("groups", groupsObj)
 
 
     let groups = [];

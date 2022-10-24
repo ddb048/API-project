@@ -17,7 +17,7 @@ function Splash() {
             </div>
             <div className="main-top">
                 <div className="main-header-left">
-                    <h1 className="h1">Celebrating 20 years of real connections on Meetup</h1>
+                    <h1 className="h1">Celebrating 20 years of real connections on Beatup</h1>
                     <p className="beat-up-introduction">Whatever you're looking to do this year, Beatup can help.
                         For 20 years, people have turned to Beatup to meet people,
                         make friends, find support, grow a business, and explore their interests in fighting crime.

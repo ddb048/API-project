@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignUpForm.css';
 import logo from '../../img/Beat-Up-Logo.png';
 
 function SignupFormPage() {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     /*********************State**************** */
     const sessionUser = useSelector((state) => state.session.user);
@@ -38,7 +39,7 @@ function SignupFormPage() {
     /***********************On Submit********************* */
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setRenderErr(true)
 
@@ -51,13 +52,16 @@ function SignupFormPage() {
             !confirmPasswordErr
         ) {
             setErrors([]);
-            return dispatch(sessionActions.signup({ email, username, password }))
+            await dispatch(sessionActions.signup({ firstName, lastName, email, username, password }))
                 .catch(async (res) => {
                     const data = await res.json();
                     if (data && data.message) setErrors(data.message);
                 });
         }
+        history.push('/');
         return setErrors(['Confirm Password field must be the same as the Password field']);
+
+
     };
 
     /********************Use Effect******************* */
@@ -68,6 +72,8 @@ function SignupFormPage() {
             setEmailErr('invalid email')
         } else if (!email.length) {
             setEmailErr('email is required')
+        } else {
+            setEmailErr("")
         }
 
         //username error handling
@@ -113,10 +119,7 @@ function SignupFormPage() {
     return (
         <div className="main">
             <div className="title">Sign Up!</div>
-            <div className="error-div">{errors.map((error, idx) => {
-                <div className="error" key={idx}>{error}</div>
-            }
-            )}</div>
+
             <form onSubmit={handleSubmit}>
                 <div className="input-main">
                     <div className="input-inner-div">
@@ -128,7 +131,7 @@ function SignupFormPage() {
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                     </div>
-                    <div className="error-div" height={'6px'}>
+                    <div className="error-div">
                         {renderErr && firstNameErr.length > 0 && firstNameErr}
                     </div>
                 </div>
@@ -142,12 +145,13 @@ function SignupFormPage() {
                             onChange={(e) => setLastName(e.target.value)}
                         />
                     </div>
-                    <div className="error-div" height={'6px'}>
+                    <div className="error-div">
                         {renderErr && lastNameErr.length > 0 && lastNameErr}
                     </div>
                 </div>
                 <div className="input-main">
                     <div className="input-inner-div">
+
                         <div className="input-header">Email</div>
                         <input
                             className="input-field"
@@ -156,7 +160,7 @@ function SignupFormPage() {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className="error-div" height={'6px'}>
+                    <div className="error-div">
                         {renderErr && emailErr.length > 0 && emailErr}
                     </div>
                 </div>
@@ -171,10 +175,9 @@ function SignupFormPage() {
                             onChange={(e) => setUsername(e.target.value)}
 
                         />
-
-                        <div className="error-div">
-                            {renderErr && usernameErr.length > 0 && usernameErr}
-                        </div>
+                    </div>
+                    <div className="error-div">
+                        {renderErr && usernameErr.length > 0 && usernameErr}
                     </div>
                 </div>
                 <div className="input-main">
@@ -189,9 +192,10 @@ function SignupFormPage() {
 
                         />
 
-                        <div className="error-div">
-                            {renderErr && passwordErr.length > 0 && passwordErr}
-                        </div>
+
+                    </div>
+                    <div className="error-div">
+                        {renderErr && passwordErr.length > 0 && passwordErr}
                     </div>
                 </div>
                 <div className="input-main">

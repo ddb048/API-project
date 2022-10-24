@@ -22,14 +22,18 @@
 }
 
 .input-inner-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     width: 80%;
 }
 
 .input-field {
     display: flex;
     justify-content: center;
+    align-self: center;
     border: 1px solid rgb(211, 211, 211);
-    width: 100%;
+    width: 350px;
     height: 25px;
     border-radius: 10px;
     margin-top: 1px;
@@ -80,4 +84,8 @@
 
 .submit:active {
     transform: scale(0.95);
+}
+
+.full-input-block {
+    padding: 2%;
 }

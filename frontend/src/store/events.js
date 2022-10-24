@@ -141,13 +141,13 @@ export const eventReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case LOAD_EVENTS:
-            newState = { ...state };
-            events = {};
-            // console.log('action.events from reducer', action.events)
-            action.events.forEach(event => events[event.id] = event);
-            newState.events = events;
+            // newState = { ...state };
+            // events = {};
+            // // console.log('action.events from reducer', action.events)
+            // action.events.forEach(event => events[event.id] = event);
+            // newState.events = events;
             // console.log("newState.events from reducer", newState.events)
-            return newState;
+            return { events: { ...action.events }, oneEvent: { ...state.oneEvent } };
 
 
         // case ADD_event:

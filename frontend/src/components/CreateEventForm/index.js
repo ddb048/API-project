@@ -231,8 +231,8 @@ function CreateEventForm() {
                     <div className='full-input-inner-div'>
                         <div className='full-input-header'>Event Description</div>
                         <div className='full-login-input'>
-                            <input
-                                className='full-input-field'
+                            <textarea
+                                className='full-input-block'
                                 type='text'
                                 maxLength={200}
                                 value={description}
