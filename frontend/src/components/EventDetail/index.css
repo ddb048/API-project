@@ -1,0 +1,11 @@
+.date {
+    font-weight: bold;
+    font-size: small;
+    border-bottom: 1px solid lightgray;
+    width: 60%;
+    padding-bottom: 2%;
+}
+
+.group-details {
+    font-size: small;
+}

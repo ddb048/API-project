@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom';
 import './LoginForm.css'
 
 function LoginForm() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [credential, setCredential] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
@@ -21,6 +23,7 @@ function LoginForm() {
         setCredentialErr('');
         setCredential('stabelish');
         setPassword('CryingFace');
+        history.push('/');
     }
 
 
@@ -40,7 +43,7 @@ function LoginForm() {
                 }
             );
         }
-
+        history.push('/');
     };
 
     useEffect(() => {

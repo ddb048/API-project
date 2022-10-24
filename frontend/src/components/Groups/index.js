@@ -15,6 +15,7 @@ function Groups() {
     let groups = [];
     if (groupsObj) {
         groups = Object.values(groupsObj);
+
     }
     //on each render, triggers the dispatch to backend to fetch all groups
     useEffect(() => {
@@ -35,20 +36,21 @@ function Groups() {
 
         //sets a display for if I have no groups within my list
     } else {
-        <div className="no-groups">
-            <img className="no-groups-pic" src="https://secure.meetupstatic.com/next/images/home/EmptyGroup.svg?w=384" />
-            <div className="no-groups-text">There are currently no groups!</div>
-        </div>
+        groupsList = (
+            <div className="no-groups">
+                <img className="no-groups-pic" src="https://secure.meetupstatic.com/next/images/home/EmptyGroup.svg?w=384" />
+                <div className="no-groups-text">There are currently no groups!</div>
+            </div>)
     }
 
 
 
 
     return (groups &&
-        <div className="main">
+        <div className="ge-main">
             <div className="groups-inner-container">
-                <Link to='/groups' >Groups</Link>
-                <Link to='/events'>Events</Link>
+                <Link className='ge-title' to='/groups' >Groups</Link>
+                <Link className='ge-title' to='/events'>Events</Link>
             </div>
             <div className="groupList">
                 {groupsList}

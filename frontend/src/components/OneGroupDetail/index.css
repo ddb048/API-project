@@ -1,0 +1,64 @@
+.details-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* margin: 10%; */
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    /* padding-bottom: 50%; */
+}
+
+.detail-inner-div {
+    display: flex;
+    justify-content: center;
+}
+
+.backend-errors {
+    text-decoration: none;
+    color: rgb(247, 89, 88)
+}
+
+.group-image {
+    display: flex;
+}
+
+.group-img {
+    border-radius: 10px;
+    object-fit: fit;
+    height: 100%;
+    width: 100%;
+    max-height: 400px;
+    max-width: 600px;
+}
+
+.group-about {
+    padding-bottom: 25px;
+}
+
+.group-buttons {
+    display: flex;
+    justify-content: space-between;
+    max-width: 600px;
+}
+
+.ge-button {
+    background-color: rgb(1, 130, 148);
+    height: 40px;
+    width: 100px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.ge-button:hover {
+    background-color: rgb(3, 165, 186)
+}
+
+.ge-button:active {
+    transform: scale(0.95);
+}
