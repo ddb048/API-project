@@ -34,41 +34,44 @@ live site: https://meetup-api-project-by-david-b.herokuapp.com/
 
 Users start here.
 
-![ksnip_20220925-232847](https://user-images.githubusercontent.com/105324675/192190378-fe8f18e6-a98f-449d-8149-bd757bff7fcd.png)
+![BeatUp](https://user-images.githubusercontent.com/106298312/197460733-8de5b884-4da5-4ef5-b1e4-5b13005dcea5.png)
+
 
 ## Login Modal
 
-The login button greets users with a snazzy modal.
-![ksnip_20220925-232847(2)](https://user-images.githubusercontent.com/105324675/192190412-f1cbc4f1-9fda-4dd4-830a-a91447370a60.png)
+The login button greets users with a modal.
+![BeatUp-3](https://user-images.githubusercontent.com/106298312/197460778-9e7a1e8d-a7a9-4431-b5ac-1661d66de680.png)
+
 
 
 ## Sign Up Page
 
 
 If not already registered, users can sign up with a new account
-![ksnip_20220925-232847(3)](https://user-images.githubusercontent.com/105324675/192190423-2b6a3efb-70e2-43b9-aa63-b67a9c31db33.png)
+[BeatUp-3](https://user-images.githubusercontent.com/106298312/197461068-7a567cce-371b-4d85-b424-d8dd1b59504a.png)
+
 
 
 ## Create A Group or Event
 
 
 Users can create groups and events!
-
-![ksnip_20220925-232848](https://user-images.githubusercontent.com/105324675/192190450-a548354f-652f-48aa-ba11-2889baeea1ba.png)
+![BeatUp](https://user-images.githubusercontent.com/106298312/197461334-fd9161ab-fed4-4b5d-ac3d-9ffc7254606d.png)
 
 
 ## View Groups and Events
 
 
 Browse Groups and Events
-![ksnip_20220925-232848(2)](https://user-images.githubusercontent.com/105324675/192190490-d1eb792d-66c9-4c17-9c53-3f44ea40c638.png)
+![BeatUp-4](https://user-images.githubusercontent.com/106298312/197461388-f5c06900-b4cb-425d-bb9d-0cdf8efc5954.png)
+
 
 
 
 ## View Group/Event Details
 
 Check the details of a group or event in the details page.
-![ksnip_20220925-232848(3)](https://user-images.githubusercontent.com/105324675/192190511-c3e891ac-0093-4933-bcf1-728b6266b75a.png)
+![BeatUp-5](https://user-images.githubusercontent.com/106298312/197461411-38c60b35-5b53-4bcf-8a29-554148d07f87.png)
 
 
 # Contact
