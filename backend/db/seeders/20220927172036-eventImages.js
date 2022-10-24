@@ -14,7 +14,7 @@ module.exports = {
         preview: false
       }, {
         eventId: 3,
-        url: "https://st4.depositphotos.com/13194036/22335/i/600/depositphotos_223357792-free-stock-photo-young-beautiful-woman-glittery-makeup.jpg"
+        url: "https://st4.depositphotos.com/13194036/22335/i/600/depositphotos_223357792-free-stock-photo-young-beautiful-woman-glittery-makeup.jpg",
         preview: true
       }, {
         eventId: 4,
