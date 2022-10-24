@@ -5,12 +5,6 @@ BeatUp is a clone of the site: Meet-Up.  This was a project to display the work 
 live site: https://meetup-api-project-by-david-b.herokuapp.com/
 
 
-## Wiki Links
-
-- [Features](https://github.com/JohnCarrera/solo-project-1/wiki/Features)
-- [Database Schema](https://github.com/JohnCarrera/solo-project-1/wiki/Database-Schema)
-- [Backend Routes](https://github.com/JohnCarrera/solo-project-1/blob/main/backend/readme.md)
-
 
 ## Tech Stack
 
@@ -23,16 +17,6 @@ live site: https://meetup-api-project-by-david-b.herokuapp.com/
 
 ## Hosting
 [<img src="https://user-images.githubusercontent.com/105324675/190728454-cada0d3c-3da2-4a21-a781-62d398a96538.svg" width="75" height="75">](https://www.heroku.com)
-
-
-
-
-
-
-# Road Map
-
-- Edit events page
-
 
 
 
