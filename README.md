@@ -4,6 +4,8 @@ BeatUp is a clone of the site: Meet-Up.  This was a project to display the work 
 
 live site: https://meetup-api-project-by-david-b.herokuapp.com/
 
+tested 12/8/22
+
 
 
 ## Tech Stack
