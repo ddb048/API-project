@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SignupFormPage from "./components/SignupFormPage";
-import Splash from './components/splash';
+import Splash from './components/Splash';
 import Groups from './components/Groups';
 import { getAllGroups } from "./store/groups";
 import OneGroupDetail from './components/OneGroupDetail'
