@@ -1,10 +1,10 @@
 import React from "react";
-
+import { useSelector } from 'react-redux';
 import './index.css';
 import { Link } from 'react-router-dom';
 
 function Splash() {
-    // const user = useSelector(state => state.session.user);
+    const user = useSelector(state => state.session.user);
 
     return (
         <div className="main">
@@ -50,15 +50,29 @@ function Splash() {
                         <p className="p">Events are happening on just about any topic you can think of, from online crime-fighting to in-person vigilantism</p>
                     </div>
                 </Link>
-                <Link className='link' to='/groups/new'>
-                    <div className="card">
-                        <div className="svg-div">
-                            <img className="svg" src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256" />
+                {!user ?
+                    <Link className='link' to='/signup'>
+                        <div className="card">
+                            <div className="svg-div">
+                                <img className="svg" src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256" />
+                            </div>
+                            <h3 className="title">Start a group</h3>
+                            <p className="p">You don't have to have superpowers to gather people together and fight crime</p>
                         </div>
-                        <h3 className="title">Start a group</h3>
-                        <p className="p">You don't have to have superpowers to gather people together and fight crime</p>
-                    </div>
-                </Link>
+                    </Link>
+                    :
+                    <Link className='link' to='/groups/new'>
+                        <div className="card">
+                            <div className="svg-div">
+                                <img className="svg" src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256" />
+                            </div>
+                            <h3 className="title">Start a group</h3>
+                            <p className="p">You don't have to have superpowers to gather people together and fight crime</p>
+                        </div>
+                    </Link>
+
+                }
+
             </div>
             {/* {!user && <div className="join-beatup-button">
                 <button className="join-beatup">Join Beatup</button>
