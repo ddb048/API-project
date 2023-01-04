@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf";
 const LOAD_MEMBERS = 'members/LOAD'
 const LOAD_ONE_MEMBERS = 'members/LOAD_ONE'
 const ADD_MEMBER = 'members/ADD'
+const DELETE_MEMBER = 'members/DELETE'
 
 //****************ACTION CREATOR***************/
 const loadMembers = (members, pending) => ({
@@ -23,19 +24,34 @@ const addMember = newMember => ({
     newMember
 })
 
+const deleteMember = member => ({
+    type: DELETE_MEMBER,
+    member
+})
 
 /********************THUNKS*********************/
-//GET /api/groups (READ)
-export const getAllGroups = () => async dispatch => {
-    const response = await csrfFetch('/api/groups');
+//GET /api/:groupId/members (READ)
+export const getAllMembers = groupId => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/members`);
 
     if (response.ok) {
-        const groups = await response.json();
-        dispatch(loadGroups(groups));
-        return groups;
+        const fullList = await response.json();
+        let members = [];
+        let pending = [];
+
+        fullList.Members.forEach(member => member.Membership.status === "pending" ?
+
+            pending.push(member) : members.push(member))
+
+
+
+        dispatch(loadMembers(members, pending));
+        return fullList;
     }
 
 }
+
+
 //POST /api/groups (CREATE)
 export const createGroup = (newGroup) => async dispatch => {
     const response = await csrfFetch('/api/groups', {
