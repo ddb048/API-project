@@ -52,8 +52,8 @@ export const getAllMembers = groupId => async dispatch => {
 }
 
 
-//POST /api/groups (CREATE)
-export const createGroup = (newGroup) => async dispatch => {
+//POST /api/:groupId/members (CREATE)
+export const createMembership = newMembership => async dispatch => {
     const response = await csrfFetch('/api/groups', {
         method: 'POST',
         body: JSON.stringify(newGroup)
@@ -65,42 +65,35 @@ export const createGroup = (newGroup) => async dispatch => {
         return newGroup;
     }
 }
-//POST /api/groups (CREATE)
-export const addGroupImage = (groupId, image) => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${groupId}/images`, {
-        method: 'POST',
-        body: JSON.stringify(image)
-    });
 
-    if (response.ok) {
-        const newImage = await response.json();
-        dispatch(getGroupDetails(groupId));
-        return newImage;
-    }
-}
-//DELETE /api/groups/:groupId (DELETE)
-export const deleteGroup = (groupId) => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${groupId}`, {
+//DELETE /api/groups/:groupId/membership/:memberId (DELETE)
+export const deleteGroup = (groupId, memberId) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/membership/${memberId}`, {
         method: 'DELETE'
     });
 
     if (response.ok) {
-        const group = await response.json();
+        const destroyedMember = await response.json();
         dispatch(removeGroup(group));
-        return group;
+        return await getAllMembers();
     }
 }
-//PUT /api/groups/:groupId (UPDATE)
-export const updateGroup = (group, groupId) => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${groupId}`, {
+//PUT /api/groups/:groupId/membership/:memberId (UPDATE)
+export const updateGroup = (groupId, memberId) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/membership/${memberId}`, {
         method: 'PUT',
-        body: JSON.stringify(group)
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            memberId,
+            status: 'member'
+        })
     });
 
     if (response.ok) {
-        const group = await response.json();
-        dispatch(editGroup(group));
-        return group;
+        const member = await response.json();
+        return await getAllMembers();
     }
 }
 //GET /api/groups/:groupId (READ1)
